@@ -6,16 +6,29 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "format-check": "prettier --list-different \"./**/*.{js,md,yml,ts,tsx}\"",
+    "prettier": "prettier --write \"./**/*.{js,md,yml,ts,tsx}\"",
+    "lint": "eslint ."
   },
   "dependencies": {
     "expo": "~50.0.2",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
-    "react-native": "0.73.2"
+    "react-native": "0.73.2",
+    "react-native-paper": "^5.12.1",
+    "react-native-safe-area-context": "^4.8.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "eslint": "^8.56.0",
+    "eslint-config-universe": "^12.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-native": "^4.1.0",
+    "prettier": "^3.2.4"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "private": true
 }
