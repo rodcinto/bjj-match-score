@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState, useImperativeHandle } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput, Button, IconButton, Text, Badge, SegmentedButtons } from 'react-native-paper';
 
@@ -13,7 +13,7 @@ import ThreePoints from '../domain/ThreePoints';
 import TwoPoints from '../domain/TwoPoints';
 import WalkOver from '../domain/WalkOver';
 
-function Participant({pointsPile, onNameChange, isMatchOn}) {
+function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];
   const [name, setName] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
@@ -86,6 +86,15 @@ function Participant({pointsPile, onNameChange, isMatchOn}) {
     setName(text);
     onNameChange(text);
   }
+
+  useImperativeHandle(ref, () => {
+    return {
+      resetParticipant: () => {
+        setName('');
+        clearPile();
+      }
+    };
+  });
 
   return (
     <View style={styles.container}>
@@ -164,7 +173,7 @@ function Participant({pointsPile, onNameChange, isMatchOn}) {
     </View>
   );
 };
-export default Participant;
+export default forwardRef(Participant);
 
 const styles = StyleSheet.create({
   container: {
