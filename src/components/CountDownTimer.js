@@ -53,9 +53,9 @@ function CountDownTimer(props, ref) {
           until={until}
           size={50}
           onFinish={props.onFinish}
-          digitStyle={{backgroundColor: '#FFF'}}
-          digitTxtStyle={{color: 'crimson'}}
-          separatorStyle={{color: 'crimson'}}
+          digitStyle={styles.digitStyle}
+          digitTxtStyle={styles.digitTxtStyle}
+          separatorStyle={styles.separatorStyle}
           timeToShow={['M', 'S']}
           timeLabels={{m: '', s: ''}}
           showSeparator
@@ -63,14 +63,14 @@ function CountDownTimer(props, ref) {
         />
         <View style={styles.btnContainer}>
           <Button
-            mode="outlined"
+            mode="contained-tonal"
             style={styles.btn}
             icon="plus"
             onPress={increaseTime}
             disabled={props.isMatchOn}
           />
           <Button
-            mode="outlined"
+            mode="contained-tonal"
             style={styles.btn}
             icon="minus"
             onPress={decreaseTime}
@@ -85,7 +85,19 @@ export default forwardRef(CountDownTimer)
 
 const styles = StyleSheet.create({
   container: {
-    height: 180,
+    height: 150,
+    paddingTop: 20,
+    marginBottom: 10,
+  },
+  digitStyle: {
+    backgroundColor: 'white',
+    height: 80,
+  },
+  digitTxtStyle: {
+    color: 'crimson',
+  },
+  separatorStyle: {
+    color: 'crimson',
   },
   btnContainer: {
     flexDirection: 'row',
