@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Divider, Text, FAB } from 'react-native-paper';
+import { Card, Text, FAB } from 'react-native-paper';
 
 import CountDownTimer from './components/CountDownTimer';
 import FinishButton from './components/FinishButton';
@@ -111,12 +111,28 @@ export default function App() {
       <View style={styles.container}>
         <Text variant='displaySmall' style={styles.headlineText}>BJJ Match Score</Text>
         <CountDownTimer play={isMatchOn} ref={countDownTimerRef} isMatchOn={isMatchOn} onFinish={finishMatch} />
-        <Divider />
         <View style={styles.participantsContainer}>
-          <Participant key="P1" ref={p1Ref} pointsPile={p1Points.current} onNameChange={setP1Name} isMatchOn={isMatchOn} />
-          <Participant key="P2" ref={p2Ref} pointsPile={p2Points.current} onNameChange={setP2Name} isMatchOn={isMatchOn} />
+          <Card style={styles.participantCard}>
+            <Participant
+              key="P1"
+              corner="BLUE"
+              ref={p1Ref}
+              pointsPile={p1Points.current}
+              onNameChange={setP1Name}
+              isMatchOn={isMatchOn}
+            />
+          </Card>
+          <Card style={styles.participantCard}>
+            <Participant
+              key="P2"
+              corner="RED"
+              ref={p2Ref}
+              pointsPile={p2Points.current}
+              onNameChange={setP2Name}
+              isMatchOn={isMatchOn}
+            />
+          </Card>
         </View>
-        <Divider />
         <PlayPause onPress={togglePlayPause} canStart={canStart} isMatchOn={isMatchOn} />
         <FinishButton onLongPress={finishMatch} canFinish={canStart} />
 
@@ -148,6 +164,10 @@ const styles = StyleSheet.create({
   },
   participantsContainer: {
     flexDirection: 'row',
+  },
+  participantCard: {
+    width: '48%',
+    margin: 3,
   },
   headlineText: {
     marginTop: 20,

@@ -13,7 +13,10 @@ import ThreePoints from '../domain/ThreePoints';
 import TwoPoints from '../domain/TwoPoints';
 import WalkOver from '../domain/WalkOver';
 
-function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
+const redCornerBgColor = 'rgba(255, 225, 225, 0.4)';
+const blueCornerBgColor = 'rgba(230, 234, 255, 0.4)';
+
+function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];
   const [name, setName] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
@@ -40,7 +43,7 @@ function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
     updateStates();
   };
 
-  const undo = () => {
+  const undoPress = () => {
     if (pointsPile.isEmpty()) {
       return;
     }
@@ -55,6 +58,11 @@ function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
     }
 
     updateStates();
+  };
+
+  const undoLongPress = () => {
+    Vibrations.undo();
+    clearPile();
   };
 
   const clearPile = () => {
@@ -97,21 +105,23 @@ function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: corner === 'BLUE' ? blueCornerBgColor : redCornerBgColor}]}>
       {isMatchOn ? (
-        <Text variant="headlineMedium">{name}</Text>
+        <Text variant="headlineMedium" style={styles.nameText}>{name}</Text>
       ) : (
         <TextInput
+          mode="outlined"
           placeholder="Name"
           label="Before start"
+          style={styles.nameTxtInput}
           value={name}
           onChangeText={ handleNameChange }
         />
       )}
 
       <View style={styles.points}>
-        <Text style={styles.pointsText}>{totalPoints}</Text>
-        <Text style={styles.pointsLbl}>Pts</Text>
+        <Text variant="headlineLarge" style={styles.pointsText}>{totalPoints}</Text>
+        <Text variant="labelSmall" style={styles.pointsLbl}>Pts.</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsGroup}>
@@ -141,9 +151,9 @@ function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
         </View>
       </View>
 
-      <View style={styles.buttonsContainer}>
+      <View style={styles.segmentedButtonsWrapper}>
         <SegmentedButtons
-          density="small"
+          density="medium"
           style={styles.endGameButtons}
           value={endGame}
           onValueChange={setEndGame}
@@ -168,7 +178,7 @@ function Participant({pointsPile, onNameChange, isMatchOn}, ref) {
       </View>
 
       <View style={[styles.buttonsContainer, styles.centerElements]}>
-        <IconButton mode="contained" icon="undo" style={styles.btnUndo} onPress={undo} onLongPress={clearPile} />
+        <IconButton mode="contained" icon="undo" style={styles.btnUndo} onPress={undoPress} onLongPress={undoLongPress} />
       </View>
     </View>
   );
@@ -177,22 +187,39 @@ export default forwardRef(Participant);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: 150,
-    padding: 5,
+    paddingHorizontal: 1,
+    paddingVertical: 3,
   },
   centerElements: {
     alignSelf: 'center',
   },
-  points: {},
-  pointsText: {},
-  pointsLbl: {},
+  nameText: {
+    textAlign: 'center',
+    fontWeight: '700',
+  },
+  nameTxtInput: {
+    width: '90%',
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  points: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  pointsText: {
+    textAlign: 'center',
+  },
+  pointsLbl: {
+    textAlign: 'center',
+    verticalAlign: 'bottom',
+  },
   buttonsContainer: {
     flexDirection: "row",
+    alignSelf: 'center',
   },
   buttonsGroup: {
     flexDirection: "column",
-    padding: 5,
+    alignSelf: 'center',
   },
   btnPoint: {
     width: 20,
@@ -218,7 +245,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
   },
+  segmentedButtonsWrapper: {
+    flexDirection: 'row',
+
+    textAlign: 'center',
+  },
   endGameButtons: {
-    transform: [{scale: 0.75}],
+    marginVertical: 10,
+    marginLeft: 5,
+    transform: [{scale: 0.70}],
   },
 });
