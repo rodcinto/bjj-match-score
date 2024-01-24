@@ -6,12 +6,24 @@ export default function FinishButton(props) {
     props.onLongPress();
   };
   return (
-    <Button onLongPress={handlePress} disabled={!props.canFinish}>
-      <Text>Finish</Text>
+    <Button
+      mode="elevated"
+      icon='flag-checkered'
+      onLongPress={handlePress}
+      disabled={!props.canFinish}
+      style={styles.finishBtn}
+    >
+      <Text variant="titleMedium">Finish</Text>
     </Button>
   );
 }
 
 const styles = StyleSheet.create({
+  finishBtn: {
+    marginTop: 5,
+    width: '55%',
+  },
+  finishBtnTxt: {
 
+  },
 });
