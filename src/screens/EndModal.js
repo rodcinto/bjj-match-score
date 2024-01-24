@@ -2,28 +2,13 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Modal, Text, ActivityIndicator } from 'react-native-paper';
 
-const blueCornerTxtColor = 'rgb(78, 106, 249)';
-const redCornerTxtColor = 'rgb(253, 70, 70)';
-const redCornerBgColor = 'rgba(255, 215, 195, 1)';
-const blueCornerBgColor = 'rgba(230, 234, 255, 1)';
-
-function defineBgColor(winner) {
-  if (!winner) {
-    return 'white';
-  }
-
-  return winner.key === 'BLUE' ? blueCornerBgColor : redCornerBgColor
-}
-
-function defineNameColor(corner) {
-  return corner === 'BLUE' ? blueCornerTxtColor : redCornerTxtColor
-};
+import ColorHelper from '../utils/ColorHelper';
 
 function ParticipantDetails({ name, points, corner }) {
 
   return (
     <View style={styles.detailsSet}>
-      <Text variant='titleLarge' style={[{color: defineNameColor(corner)}]}>{name}</Text>
+      <Text variant='titleLarge' style={[{color: ColorHelper.defineNameColor(corner)}]}>{name}</Text>
       <Text variant='bodyMedium'>{points.rawPoints} points</Text>
       <Text variant='bodyMedium'>{points.advantages} Advantages</Text>
       <Text variant='bodyMedium'>{points.penalties} Penalties</Text>
@@ -68,7 +53,14 @@ export default function EndModal({ visible, onDismiss, report }) {
   }, [visible]);
 
   return (
-    <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={[styles.container, {backgroundColor: defineBgColor(winner)}]}>
+    <Modal
+      visible={visible}
+      onDismiss={onDismiss}
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: ColorHelper.defineBgColorByWinner(winner) },
+      ]}
+    >
       <Text variant="displaySmall" style={styles.headlineText}>Match End</Text>
       {isObjectEmpty(report) ?
         (<ActivityIndicator />)
@@ -78,7 +70,7 @@ export default function EndModal({ visible, onDismiss, report }) {
             <View>
               <View style={styles.winnerWrapper}>
                 <Text variant='headlineMedium' style={styles.winnerTxt}>
-                  <Text style={{color: defineNameColor(winner.key)}}>{winner.name}</Text> win by {reason}
+                  <Text style={{color: ColorHelper.defineNameColor(winner.key)}}>{winner.name}</Text> win by {reason}
                 </Text>
                 <Text variant='headlineSmall' style={styles.winnerPts}>{winner.points.rawPoints} pts.</Text>
               </View>

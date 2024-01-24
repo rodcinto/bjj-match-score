@@ -11,10 +11,8 @@ import Submission from '../domain/Submission';
 import ThreePoints from '../domain/ThreePoints';
 import TwoPoints from '../domain/TwoPoints';
 import WalkOver from '../domain/WalkOver';
+import ColorHelper from "../utils/ColorHelper";
 import calculatePoints from "../utils/calculatePoints";
-
-const redCornerBgColor = 'rgba(255, 215, 195, 0.3)';
-const blueCornerBgColor = 'rgba(230, 234, 255, 0.3)';
 
 function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];
@@ -105,9 +103,9 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
   });
 
   return (
-    <View style={[styles.container, {backgroundColor: corner === 'BLUE' ? blueCornerBgColor : redCornerBgColor}]}>
+    <View style={[styles.container, { backgroundColor: ColorHelper.defineCardBgColor(corner) }]}>
       {isMatchOn ? (
-        <Text variant="headlineMedium" style={styles.nameText}>{name}</Text>
+        <Text variant="headlineMedium" style={[styles.nameText, {color: ColorHelper.defineNameColor(corner)}]}>{name}</Text>
       ) : (
         <TextInput
           mode="outlined"
@@ -197,6 +195,7 @@ const styles = StyleSheet.create({
     height: 56,
     textAlign: 'center',
     fontWeight: '700',
+    verticalAlign: 'middle',
   },
   nameTxtInput: {
     width: '90%',
