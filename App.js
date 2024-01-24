@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, ImageBackground } from 'react-native';
-import { Card, Text, FAB } from 'react-native-paper';
+import { PaperProvider, Card, Text, FAB, MD3LightTheme as DefaultTheme } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import CountDownTimer from './components/CountDownTimer';
 import FinishButton from './components/FinishButton';
@@ -10,9 +11,15 @@ import PlayPause from './components/PlayPause';
 import Vibrations from './components/Vibrations';
 import EndModal from './screens/EndModal';
 import NewMatchDialog from './screens/NewMatchDialog';
+import light from './themes/redAndBlue/light.json'
 import Pile from './utils/Pile';
 import calculatePoints from './utils/calculatePoints';
 import chooseWinner from './utils/chooseWinner';
+
+const theme = {
+  ...DefaultTheme,
+  colors: light.colors,
+};
 
 const bgImage = require('./assets/web_bg.png');
 
@@ -109,7 +116,8 @@ export default function App() {
    }, [p1Name, p2Name]);
 
   return (
-    <>
+    <SafeAreaProvider>
+      <PaperProvider theme={theme}>
       <View style={styles.container}>
         <ImageBackground source={bgImage} resizeMode="cover" style={styles.background} imageStyle={styles.bgImage}>
           <View style={styles.header}>
@@ -159,7 +167,8 @@ export default function App() {
         hideDialog={hideNewMatchDialog}
         confirm={newMatchConfirmed}
       />
-    </>
+      </PaperProvider>
+    </SafeAreaProvider>
   );
 }
 
