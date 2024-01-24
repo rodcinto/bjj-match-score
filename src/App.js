@@ -140,7 +140,7 @@ export default function App() {
       </View>
 
       <FAB
-        icon="plus"
+        icon="restart"
         style={styles.fab}
         onPress={newMatchPress}
       />
