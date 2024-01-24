@@ -18,10 +18,20 @@ export default function PlayPause({onPress, canStart, isMatchOn}) {
   }, [isMatchOn]);
 
   return (
-    <IconButton icon={isPlaying ? "pause" : "play"} onPress={handlePress} disabled={!canStart} />
+    <IconButton
+      mode="contained"
+      icon={isPlaying ? "pause" : "play"}
+      onPress={handlePress}
+      disabled={!canStart}
+      style={styles.playPauseBtn}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-
+  playPauseBtn: {
+    width: 60,
+    height: 60,
+    marginTop: 20,
+  },
 });
