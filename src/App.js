@@ -63,7 +63,7 @@ export default function App() {
    };
 
    useEffect(() => {
-    setCanStart(p1Name.length > 0 && p2Name.length > 0);
+    setCanStart(p1Name.length > 0 && p2Name.length > 0 && p1Name !== p2Name);
    }, [p1Name, p2Name]);
 
   return (
