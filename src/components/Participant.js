@@ -94,6 +94,7 @@ function Participant({pointsPile, onNameChange, isMatchOn}) {
       ) : (
         <TextInput
           placeholder="Name"
+          label="Before start"
           value={name}
           onChangeText={ handleNameChange }
         />
