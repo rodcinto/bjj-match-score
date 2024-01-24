@@ -63,14 +63,14 @@ function CountDownTimer(props, ref) {
         />
         <View style={styles.btnContainer}>
           <Button
-            mode="contained-tonal"
+            mode="elevated"
             style={styles.btn}
             icon="plus"
             onPress={increaseTime}
             disabled={props.isMatchOn}
           />
           <Button
-            mode="contained-tonal"
+            mode="elevated"
             style={styles.btn}
             icon="minus"
             onPress={decreaseTime}
