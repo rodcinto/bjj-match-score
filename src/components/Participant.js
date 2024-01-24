@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { TextInput, Button, IconButton, Text, Badge, SegmentedButtons } from 'react-native-paper';
 
 import Vibrations from "./Vibrations";
-import calculatePoints from "../../Utils/calculatePoints";
+import calculatePoints from "../utils/calculatePoints";
 import Advantage from '../domain/Advantage';
 import Disqualification from '../domain/Disqualification';
 import FourPoints from '../domain/FourPoints';

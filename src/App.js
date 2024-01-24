@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
 import { Card, Text, FAB } from 'react-native-paper';
 
 import CountDownTimer from './components/CountDownTimer';
@@ -10,9 +10,11 @@ import PlayPause from './components/PlayPause';
 import Vibrations from './components/Vibrations';
 import EndModal from './screens/EndModal';
 import NewMatchDialog from './screens/NewMatchDialog';
-import Pile from '../Utils/Pile';
-import calculatePoints from '../Utils/calculatePoints';
-import chooseWinner from '../Utils/chooseWinner';
+import Pile from './utils/Pile';
+import calculatePoints from './utils/calculatePoints';
+import chooseWinner from './utils/chooseWinner';
+
+const bgImage = require('./assets/bjj_bg.jpg');
 
 export default function App() {
   const countDownTimerRef = useRef();
@@ -109,32 +111,38 @@ export default function App() {
   return (
     <>
       <View style={styles.container}>
-        <Text variant='displaySmall' style={styles.headlineText}>BJJ Match Score</Text>
-        <CountDownTimer play={isMatchOn} ref={countDownTimerRef} isMatchOn={isMatchOn} onFinish={finishMatch} />
-        <View style={styles.participantsContainer}>
-          <Card style={styles.participantCard}>
-            <Participant
-              key="P1"
-              corner="BLUE"
-              ref={p1Ref}
-              pointsPile={p1Points.current}
-              onNameChange={setP1Name}
-              isMatchOn={isMatchOn}
-            />
-          </Card>
-          <Card style={styles.participantCard}>
-            <Participant
-              key="P2"
-              corner="RED"
-              ref={p2Ref}
-              pointsPile={p2Points.current}
-              onNameChange={setP2Name}
-              isMatchOn={isMatchOn}
-            />
-          </Card>
-        </View>
-        <PlayPause onPress={togglePlayPause} canStart={canStart} isMatchOn={isMatchOn} />
-        <FinishButton onLongPress={finishMatch} canFinish={canStart} />
+        {/* <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}> */}
+          <View style={styles.header}>
+            <Text variant='displaySmall' style={styles.headlineText}>BJJ Match Score</Text>
+            <CountDownTimer play={isMatchOn} ref={countDownTimerRef} isMatchOn={isMatchOn} onFinish={finishMatch} />
+          </View>
+          <View style={styles.participantsContainer}>
+            <Card style={styles.participantCard}>
+              <Participant
+                key="P1"
+                corner="BLUE"
+                ref={p1Ref}
+                pointsPile={p1Points.current}
+                onNameChange={setP1Name}
+                isMatchOn={isMatchOn}
+              />
+            </Card>
+            <Card style={styles.participantCard}>
+              <Participant
+                key="P2"
+                corner="RED"
+                ref={p2Ref}
+                pointsPile={p2Points.current}
+                onNameChange={setP2Name}
+                isMatchOn={isMatchOn}
+              />
+            </Card>
+          </View>
+          <View style={styles.controlButtons}>
+            <PlayPause onPress={togglePlayPause} canStart={canStart} isMatchOn={isMatchOn} />
+            <FinishButton onLongPress={finishMatch} canFinish={canStart} />
+          </View>
+        {/* </ImageBackground> */}
 
         <StatusBar style="auto" />
       </View>
@@ -156,11 +164,17 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  header: {
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    marginTop: 50,
   },
   participantsContainer: {
     flexDirection: 'row',
@@ -168,9 +182,14 @@ const styles = StyleSheet.create({
   participantCard: {
     width: '48%',
     margin: 3,
+    opacity: 0.9,
   },
   headlineText: {
     marginTop: 20,
+    textAlign: 'center',
+  },
+  controlButtons: {
+    alignItems: 'center',
   },
   fab: {
     position: 'absolute',

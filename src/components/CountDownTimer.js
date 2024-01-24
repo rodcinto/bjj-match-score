@@ -101,11 +101,12 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     flexDirection: 'row',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginTop: 10,
   },
   btn: {
     width: 65,
     paddingLeft: 15,
-    marginHorizontal: 15,
+    marginHorizontal: 4,
   },
 });
