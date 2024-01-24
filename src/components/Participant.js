@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import { TextInput, Button, IconButton, Text, Badge, SegmentedButtons } from 'react-native-paper';
 
 import Vibrations from "./Vibrations";
-import calculatePoints from "../utils/calculatePoints";
 import Advantage from '../domain/Advantage';
 import Disqualification from '../domain/Disqualification';
 import FourPoints from '../domain/FourPoints';
@@ -12,9 +11,10 @@ import Submission from '../domain/Submission';
 import ThreePoints from '../domain/ThreePoints';
 import TwoPoints from '../domain/TwoPoints';
 import WalkOver from '../domain/WalkOver';
+import calculatePoints from "../utils/calculatePoints";
 
-const redCornerBgColor = 'rgba(255, 225, 225, 0.4)';
-const blueCornerBgColor = 'rgba(230, 234, 255, 0.4)';
+const redCornerBgColor = 'rgba(255, 215, 195, 0.3)';
+const blueCornerBgColor = 'rgba(230, 234, 255, 0.3)';
 
 function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];

@@ -14,7 +14,7 @@ import Pile from './utils/Pile';
 import calculatePoints from './utils/calculatePoints';
 import chooseWinner from './utils/chooseWinner';
 
-const bgImage = require('./assets/bjj_bg.jpg');
+const bgImage = require('./assets/web_bg.png');
 
 export default function App() {
   const countDownTimerRef = useRef();
@@ -111,7 +111,7 @@ export default function App() {
   return (
     <>
       <View style={styles.container}>
-        {/* <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}> */}
+        <ImageBackground source={bgImage} resizeMode="cover" style={styles.background} imageStyle={styles.bgImage}>
           <View style={styles.header}>
             <Text variant='displaySmall' style={styles.headlineText}>BJJ Match Score</Text>
             <CountDownTimer play={isMatchOn} ref={countDownTimerRef} isMatchOn={isMatchOn} onFinish={finishMatch} />
@@ -142,7 +142,7 @@ export default function App() {
             <PlayPause onPress={togglePlayPause} canStart={canStart} isMatchOn={isMatchOn} />
             <FinishButton onLongPress={finishMatch} canFinish={canStart} />
           </View>
-        {/* </ImageBackground> */}
+        </ImageBackground>
 
         <StatusBar style="auto" />
       </View>
@@ -165,6 +165,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   bgImage: {
+    opacity: 0.5,
+  },
+  background: {
     flex: 1,
   },
   container: {
@@ -173,8 +176,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    // backgroundColor: 'rgba(255, 255, 255, 0.5)',
     marginTop: 50,
+  },
+  headlineText: {
+    color: 'white',
+    marginTop: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    textShadowColor: 'rgba(0, 0, 0, 0.90)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   },
   participantsContainer: {
     flexDirection: 'row',
@@ -183,10 +196,6 @@ const styles = StyleSheet.create({
     width: '48%',
     margin: 3,
     opacity: 0.9,
-  },
-  headlineText: {
-    marginTop: 20,
-    textAlign: 'center',
   },
   controlButtons: {
     alignItems: 'center',
