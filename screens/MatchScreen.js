@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View, ImageBackground } from 'react-native';
 import { Card, Text, FAB } from 'react-native-paper';
 
@@ -10,27 +10,10 @@ import PlayPause from '../components/PlayPause';
 import Vibrations from '../components/Vibrations';
 import EndModal from '../screens/EndModal';
 import NewMatchDialog from '../screens/NewMatchDialog';
-import Pile from '../utils/Pile';
-import calculatePoints from '../utils/calculatePoints';
-import chooseWinner from '../utils/chooseWinner';
 
 const bgImage = require('../assets/web_bg.png');
 
-export default function MatchScreen() {
-  const countDownTimerRef = useRef();
-
-  const [canStart, setCanStart] = useState(false);
-  const [p1Name, setP1Name] = useState('');
-  const [p2Name, setP2Name] = useState('');
-  const p1Points = useRef(new Pile());
-  const p2Points = useRef(new Pile());
-  const p1Ref = useRef();
-  const p2Ref = useRef();
-
-  const [isMatchOn, setMatchOn] = useState(false);
-
-  const [report, setReport] = useState({});
-
+export default function MatchScreen({ dispatch, control, timer, participants }) {
   const [finishModalVisible, setFinishModalVisible] = useState(false);
   const showFinishModal = () => setFinishModalVisible(true);
   const hideFinishModal = () => setFinishModalVisible(false);
@@ -38,48 +21,19 @@ export default function MatchScreen() {
   const [newMatchDialogVisible, setNewMatchDialogVisible] = useState(false);
 
   const togglePlayPause = () => {
-    setMatchOn(!isMatchOn)
   };
 
   const finishMatch = () => {
-    setMatchOn(false);
-    countDownTimerRef.current.resetTimer();
-
-    setReport(makeReport());
-
     Vibrations.finish();
+
+    dispatch({type: 'finishMatch'});
 
     showFinishModal();
   };
 
-  const makeReport = () => {
-    const P1 = {
-      key: 'BLUE',
-      name: p1Name,
-      points: calculatePoints(p1Points.current),
-      winner: false,
-    };
-    const P2 = {
-      key: 'RED',
-      name: p2Name,
-      points: calculatePoints(p2Points.current),
-      winner: false,
-    };
-
-    return chooseWinner(P1, P2);
-  };
-
   const newMatchPress = () => {
-  if (
-    isMatchOn ||
-    p1Name !== '' ||
-    p2Name !== '' ||
-    p1Points.current.size() > 0 ||
-    p2Points.current.size() > 0
-  ) {
     setNewMatchDialogVisible(true);
   }
-  };
 
   const hideNewMatchDialog = () => {
     setNewMatchDialogVisible(false);
@@ -91,22 +45,10 @@ export default function MatchScreen() {
   };
 
   const resetMatch = () => {
-  Vibrations.vibrateDefault();
+    Vibrations.vibrateDefault();
 
-  setP1Name('');
-  setP2Name('');
-
-  p1Ref.current.resetParticipant();
-  p2Ref.current.resetParticipant();
-
-  countDownTimerRef.current.resetTimer();
-
-  setMatchOn(false);
+    dispatch({type: 'newMatch'});
   };
-
-   useEffect(() => {
-    setCanStart(p1Name.length > 0 && p2Name.length > 0 && p1Name !== p2Name);
-  }, [p1Name, p2Name]);
 
   return (
     <>
@@ -114,33 +56,43 @@ export default function MatchScreen() {
         <ImageBackground source={bgImage} resizeMode="cover" style={styles.background} imageStyle={styles.bgImage}>
           <View style={styles.header}>
             <Text variant='displaySmall' style={styles.headlineText}>BJJ Match Score</Text>
-            <CountDownTimer play={isMatchOn} ref={countDownTimerRef} isMatchOn={isMatchOn} onFinish={finishMatch} />
+            <CountDownTimer
+              isMatchOn={control.matchOn}
+              onFinish={finishMatch}
+              play={timer.play}
+              seconds={timer.seconds}
+              reset={control.resetSignal}
+            />
           </View>
           <View style={styles.participantsContainer}>
             <Card style={styles.participantCard}>
               <Participant
-                key="P1"
-                corner="BLUE"
-                ref={p1Ref}
-                pointsPile={p1Points.current}
-                onNameChange={setP1Name}
-                isMatchOn={isMatchOn}
+                dispatch={dispatch}
+                participant={participants.P1}
+                isMatchOn={control.matchOn}
+                reset={control.resetSignal}
               />
             </Card>
             <Card style={styles.participantCard}>
               <Participant
-                key="P2"
-                corner="RED"
-                ref={p2Ref}
-                pointsPile={p2Points.current}
-                onNameChange={setP2Name}
-                isMatchOn={isMatchOn}
+                dispatch={dispatch}
+                participant={participants.P2}
+                isMatchOn={control.matchOn}
+                reset={control.resetSignal}
               />
             </Card>
           </View>
           <View style={styles.controlButtons}>
-            <PlayPause onPress={togglePlayPause} canStart={canStart} isMatchOn={isMatchOn} />
-            <FinishButton onLongPress={finishMatch} canFinish={canStart} />
+            <PlayPause
+              dispatch={dispatch}
+              onPress={togglePlayPause}
+              canStart={control.canStart}
+              isMatchOn={control.matchOn}
+            />
+            <FinishButton
+              onLongPress={finishMatch}
+              canFinish={control.canStart}
+            />
           </View>
         </ImageBackground>
 
@@ -153,7 +105,12 @@ export default function MatchScreen() {
         onPress={newMatchPress}
       />
 
-      <EndModal visible={finishModalVisible} onDismiss={hideFinishModal} report={report} />
+      <EndModal
+        visible={finishModalVisible}
+        onDismiss={hideFinishModal}
+        participants={participants}
+      />
+
       <NewMatchDialog
         visible={newMatchDialogVisible}
         hideDialog={hideNewMatchDialog}
@@ -162,7 +119,6 @@ export default function MatchScreen() {
     </>
   );
 }
-
 
 const styles = StyleSheet.create({
   bgImage: {
