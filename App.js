@@ -84,16 +84,18 @@ function matchReducer(currentState, action) {
 }
 
 function actionFinishMatch(currentState) {
+  currentState.participants.P1.winner = false;
+  currentState.participants.P2.winner = false;
+
   const winnerKey = chooseWinnerKey(
     currentState.participants.P1,
     currentState.participants.P2,
   );
   if (winnerKey) {
-    currentState.participants.P1.winner = false;
-    currentState.participants.P2.winner = false;
     currentState.participants[winnerKey].winner = true;
   }
-  return {
+
+  const newState = {
     ...currentState,
     control: {
       ...currentState.control,
@@ -105,6 +107,8 @@ function actionFinishMatch(currentState) {
       play: false,
     },
   };
+
+  return newState;
 }
 
 function canAcceptNames(participants) {

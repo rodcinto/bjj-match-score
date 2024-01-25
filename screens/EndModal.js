@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Modal, Text, ActivityIndicator } from "react-native-paper";
 
+import { END_MODAL_REASON_POINTS } from "../constants/application";
 import ColorHelper from "../utils/ColorHelper";
 
 function ParticipantDetails({ participant }) {
@@ -39,29 +40,32 @@ function isObjectEmpty(obj) {
 export default function EndModal({ visible, onDismiss, participants }) {
   const [winner, setWinner] = useState(null);
   const [defeated, setDefeated] = useState(null);
-  const [reason, setReason] = useState("points");
+  const [reason, setReason] = useState(END_MODAL_REASON_POINTS);
 
   useEffect(() => {
-    let winner, defeated;
+    let win, def;
     let updateReason = reason;
 
     if (participants.P1.winner) {
-      winner = participants.P1;
-      defeated = participants.P2;
+      win = participants.P1;
+      def = participants.P2;
     } else if (participants.P2.winner) {
-      winner = participants.P2;
-      defeated = participants.P1;
+      win = participants.P2;
+      def = participants.P1;
     } else {
+      setReason(END_MODAL_REASON_POINTS);
+      setWinner(null);
+      setDefeated(null);
       return;
     }
 
-    if (winner.results.sub) updateReason = "Submission";
-    if (defeated.results.dq) updateReason = "Disqualification";
-    if (defeated.results.wo) updateReason = "W.O.";
+    if (win.results.sub) updateReason = "Submission";
+    if (def.results.dq) updateReason = "Disqualification";
+    if (def.results.wo) updateReason = "W.O.";
 
     setReason(updateReason);
-    setWinner(winner);
-    setDefeated(defeated);
+    setWinner(win);
+    setDefeated(def);
   }, [visible]);
 
   return (

@@ -16,3 +16,6 @@ export const END_GAME_SUB = "sub";
 export const END_GAME_DQ = "dq";
 export const END_GAME_WO = "wo";
 export const END_GAME_TYPES = [END_GAME_SUB, END_GAME_DQ, END_GAME_WO];
+
+// End Modal
+export const END_MODAL_REASON_POINTS = 'points';
