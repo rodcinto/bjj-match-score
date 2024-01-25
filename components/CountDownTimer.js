@@ -1,36 +1,41 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import CountDown from 'react-native-countdown-component';
-import { Button } from 'react-native-paper';
+import { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import CountDown from "react-native-countdown-component";
+import { Button } from "react-native-paper";
 
-import Vibrations from './Vibrations';
+import Vibrations from "./Vibrations";
+import {
+  TIMER_ID,
+  TIMER_INITIAL_SECONDS,
+  TIMER_MAX_LIMIT,
+  TIMER_MIN_LIMIT,
+  TIMER_SECONDS_ALPHA,
+} from "../constants/application";
 
 function generateTimerId() {
-  return `timer_id_${Date.now()}`;
+  return `${TIMER_ID}_${Date.now()}`;
 }
 
 function CountDownTimer({ isMatchOn, play, onFinish, reset }) {
-  const [timerId, setTimerId] = useState('initial_id');
-  const [seconds, setSeconds] = useState(300);
+  const [timerId, setTimerId] = useState(TIMER_ID);
+  const [seconds, setSeconds] = useState(TIMER_INITIAL_SECONDS);
 
-  const SECONDS_ALPHA = 30;
-
-  const increaseTime = function() {
-    if ((seconds + SECONDS_ALPHA) <= 600) {
+  const increaseTime = function () {
+    if (seconds + TIMER_SECONDS_ALPHA <= TIMER_MAX_LIMIT) {
       Vibrations.vibrateDefault();
-      setSeconds(seconds + SECONDS_ALPHA);
+      setSeconds(seconds + TIMER_SECONDS_ALPHA);
     }
-  }
+  };
 
-  const decreaseTime = function() {
-    if ((seconds - SECONDS_ALPHA) >= 30) {
+  const decreaseTime = function () {
+    if (seconds - TIMER_SECONDS_ALPHA >= TIMER_MIN_LIMIT) {
       Vibrations.vibrateDefault();
-      setSeconds(seconds - SECONDS_ALPHA);
+      setSeconds(seconds - TIMER_SECONDS_ALPHA);
     }
-  }
+  };
 
   useEffect(() => {
-    if(timerId === 'initial_id' && seconds === 300) {
+    if (timerId === TIMER_ID && seconds === TIMER_INITIAL_SECONDS) {
       // Skip page load.
       return;
     }
@@ -39,41 +44,41 @@ function CountDownTimer({ isMatchOn, play, onFinish, reset }) {
   }, [seconds, reset]);
 
   return (
-      <View style={styles.container}>
-        <CountDown
-          id={timerId}
-          until={seconds}
-          size={50}
-          onFinish={onFinish}
-          digitStyle={styles.digitStyle}
-          digitTxtStyle={styles.digitTxtStyle}
-          separatorStyle={styles.separatorStyle}
-          timeToShow={['M', 'S']}
-          timeLabels={{m: '', s: ''}}
-          showSeparator
-          running={play}
+    <View style={styles.container}>
+      <CountDown
+        id={timerId}
+        until={seconds}
+        size={50}
+        onFinish={onFinish}
+        digitStyle={styles.digitStyle}
+        digitTxtStyle={styles.digitTxtStyle}
+        separatorStyle={styles.separatorStyle}
+        timeToShow={["M", "S"]}
+        timeLabels={{ m: "", s: "" }}
+        showSeparator
+        running={play}
+      />
+      <View style={styles.btnContainer}>
+        <Button
+          mode="elevated"
+          style={styles.btn}
+          icon="plus"
+          onPress={increaseTime}
+          disabled={isMatchOn}
         />
-        <View style={styles.btnContainer}>
-          <Button
-            mode="elevated"
-            style={styles.btn}
-            icon="plus"
-            onPress={increaseTime}
-            disabled={isMatchOn}
-          />
-          <Button
-            mode="elevated"
-            style={styles.btn}
-            icon="minus"
-            onPress={decreaseTime}
-            disabled={isMatchOn}
-          />
-        </View>
+        <Button
+          mode="elevated"
+          style={styles.btn}
+          icon="minus"
+          onPress={decreaseTime}
+          disabled={isMatchOn}
+        />
       </View>
+    </View>
   );
 }
 
-export default CountDownTimer
+export default CountDownTimer;
 
 const styles = StyleSheet.create({
   container: {
@@ -82,18 +87,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   digitStyle: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: 80,
   },
   digitTxtStyle: {
-    color: 'crimson',
+    color: "crimson",
   },
   separatorStyle: {
-    color: 'crimson',
+    color: "crimson",
   },
   btnContainer: {
-    flexDirection: 'row',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
     marginTop: 10,
   },
   btn: {
