@@ -4,14 +4,15 @@ import { Modal, Text, ActivityIndicator } from 'react-native-paper';
 
 import ColorHelper from '../utils/ColorHelper';
 
-function ParticipantDetails({ name, points, corner }) {
-
+function ParticipantDetails({ participant }) {
   return (
     <View style={styles.detailsSet}>
-      <Text variant='titleLarge' style={[{color: ColorHelper.defineNameColor(corner)}]}>{name}</Text>
-      <Text variant='bodyMedium'>{points.rawPoints} points</Text>
-      <Text variant='bodyMedium'>{points.advantages} Advantages</Text>
-      <Text variant='bodyMedium'>{points.penalties} Penalties</Text>
+      <Text variant='titleLarge' style={[{color: ColorHelper.defineNameColor(participant.corner)}]}>
+        {participant.name}
+      </Text>
+      <Text variant='bodyMedium'>{participant.results.rawPoints} points</Text>
+      <Text variant='bodyMedium'>{participant.results.advantages} Advantages</Text>
+      <Text variant='bodyMedium'>{participant.results.penalties} Penalties</Text>
     </View>
   );
 }
@@ -20,32 +21,28 @@ function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-export default function EndModal({ visible, onDismiss, report }) {
+export default function EndModal({ visible, onDismiss, participants }) {
   const [winner, setWinner] = useState(null);
   const [defeated, setDefeated] = useState(null);
   const [reason, setReason] = useState('points');
 
   useEffect(() => {
-    if (isObjectEmpty(report)) {
-      return;
-    }
-
     let winner, defeated;
     let updateReason = reason;
 
-    if (report.P1.winner) {
-      winner = report.P1;
-      defeated = report.P2;
-    } else if(report.P2.winner) {
-      winner = report.P2;
-      defeated = report.P1;
+    if (participants.P1.winner) {
+      winner = participants.P1;
+      defeated = participants.P2;
+    } else if(participants.P2.winner) {
+      winner = participants.P2;
+      defeated = participants.P1;
     } else {
       return;
     }
 
-    if (winner.points.sub) updateReason = 'Submission';
-    if (defeated.points.dq) updateReason = 'Disqualification';
-    if (defeated.points.wo) updateReason = 'W.O.';
+    if (winner.results.sub) updateReason = 'Submission';
+    if (defeated.results.dq) updateReason = 'Disqualification';
+    if (defeated.results.wo) updateReason = 'W.O.';
 
     setReason(updateReason)
     setWinner(winner);
@@ -62,7 +59,7 @@ export default function EndModal({ visible, onDismiss, report }) {
       ]}
     >
       <Text variant="displaySmall" style={styles.headlineText}>Match End</Text>
-      {isObjectEmpty(report) ?
+      {isObjectEmpty(participants) ?
         (<ActivityIndicator />)
         :
         (winner ?
@@ -70,13 +67,13 @@ export default function EndModal({ visible, onDismiss, report }) {
             <View>
               <View style={styles.winnerWrapper}>
                 <Text variant='headlineMedium' style={styles.winnerTxt}>
-                  <Text style={{color: ColorHelper.defineNameColor(winner.key)}}>{winner.name}</Text> win by {reason}
+                  <Text style={{color: ColorHelper.defineNameColor(winner.corner)}}>{winner.name}</Text> win by {reason}
                 </Text>
-                <Text variant='headlineSmall' style={styles.winnerPts}>{winner.points.rawPoints} pts.</Text>
+                <Text variant='headlineSmall' style={styles.winnerPts}>{winner.results.rawPoints} pts.</Text>
               </View>
               <View style={styles.detailsWrapper}>
-                <ParticipantDetails name={winner.name} points={winner.points} corner={winner.key} />
-                <ParticipantDetails name={defeated.name} points={defeated.points} corner={defeated.key} />
+                <ParticipantDetails participant={winner} />
+                <ParticipantDetails participant={defeated} />
               </View>
             </View>
           ) :
@@ -86,8 +83,8 @@ export default function EndModal({ visible, onDismiss, report }) {
                 <Text variant='headlineLarge' style={styles.drawTxt}>DRAW</Text>
               </View>
               <View style={styles.detailsWrapper}>
-                <ParticipantDetails name={report.P1.name} points={report.P1.points} corner={report.P1.key} />
-                <ParticipantDetails name={report.P2.name} points={report.P2.points} corner={report.P2.key} />
+                <ParticipantDetails participant={participants.P1} />
+                <ParticipantDetails participant={participants.P2} />
               </View>
             </View>
           ))
