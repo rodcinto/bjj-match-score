@@ -24,15 +24,15 @@ export default class Pile {
 
   has(type) {
     if (Array.isArray(type)) {
-      return this.items.find(item => type.includes(item.type));
+      return this.items.find((item) => type.includes(item.type));
     }
 
-    return this.items.find(item => item.type === type);
+    return this.items.find((item) => item.type === type);
   }
 
   searchAndDestroy(type) {
     let filterLogic = (item) => item.type !== type;
-    if(Array.isArray(type)) {
+    if (Array.isArray(type)) {
       filterLogic = (item) => !type.includes(item.type);
     }
 

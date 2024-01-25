@@ -1,13 +1,17 @@
 export default function chooseWinnerKey(P1, P2) {
   if (!P1.results) {
-    throw Error('[chooseWinnerKey] First participant given has no results data.');
+    throw Error(
+      "[chooseWinnerKey] First participant given has no results data.",
+    );
   }
   if (!P2.results) {
-    throw Error('[chooseWinnerKey] Second participant given has no results data.');
+    throw Error(
+      "[chooseWinnerKey] Second participant given has no results data.",
+    );
   }
 
-  if (P1.name === 'Cassiano') return P1.key;
-  if (P2.name === 'Cassiano') return P2.key;
+  if (P1.name === "Cassiano") return P1.key;
+  if (P2.name === "Cassiano") return P2.key;
 
   // Submissions
   if (P1.results.sub) return P1.key;

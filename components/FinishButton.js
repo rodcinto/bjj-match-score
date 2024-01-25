@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Button, Text } from 'react-native-paper';
+import { Button, Text } from "react-native-paper";
 
 export default function FinishButton(props) {
   const handlePress = () => {
@@ -8,7 +8,7 @@ export default function FinishButton(props) {
   return (
     <Button
       mode="elevated"
-      icon='flag-checkered'
+      icon="flag-checkered"
       onLongPress={handlePress}
       disabled={!props.canFinish}
       style={styles.finishBtn}
@@ -21,9 +21,7 @@ export default function FinishButton(props) {
 const styles = StyleSheet.create({
   finishBtn: {
     marginTop: 5,
-    width: '55%',
+    width: "55%",
   },
-  finishBtnTxt: {
-
-  },
+  finishBtnTxt: {},
 });

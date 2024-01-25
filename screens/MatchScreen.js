@@ -1,40 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, View, ImageBackground } from 'react-native';
-import { Card, Text, FAB } from 'react-native-paper';
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import { StyleSheet, View, ImageBackground } from "react-native";
+import { Card, Text, FAB } from "react-native-paper";
 
-import CountDownTimer from '../components/CountDownTimer';
-import FinishButton from '../components/FinishButton';
-import Participant from '../components/Participant';
-import PlayPause from '../components/PlayPause';
-import Vibrations from '../components/Vibrations';
-import { FINISH_MATCH, NEW_MATCH } from '../constants/actions';
-import EndModal from '../screens/EndModal';
-import NewMatchDialog from '../screens/NewMatchDialog';
+import CountDownTimer from "../components/CountDownTimer";
+import FinishButton from "../components/FinishButton";
+import Participant from "../components/Participant";
+import PlayPause from "../components/PlayPause";
+import Vibrations from "../components/Vibrations";
+import { FINISH_MATCH, NEW_MATCH } from "../constants/actions";
+import EndModal from "../screens/EndModal";
+import NewMatchDialog from "../screens/NewMatchDialog";
 
-const bgImage = require('../assets/web_bg.png');
+const bgImage = require("../assets/web_bg.png");
 
-export default function MatchScreen({ dispatch, control, timer, participants }) {
+export default function MatchScreen({
+  dispatch,
+  control,
+  timer,
+  participants,
+}) {
   const [finishModalVisible, setFinishModalVisible] = useState(false);
   const showFinishModal = () => setFinishModalVisible(true);
   const hideFinishModal = () => setFinishModalVisible(false);
 
   const [newMatchDialogVisible, setNewMatchDialogVisible] = useState(false);
 
-  const togglePlayPause = () => {
-  };
+  const togglePlayPause = () => {};
 
   const finishMatch = () => {
     Vibrations.finish();
 
-    dispatch({type: FINISH_MATCH});
+    dispatch({ type: FINISH_MATCH });
 
     showFinishModal();
   };
 
   const newMatchPress = () => {
     setNewMatchDialogVisible(true);
-  }
+  };
 
   const hideNewMatchDialog = () => {
     setNewMatchDialogVisible(false);
@@ -48,15 +52,22 @@ export default function MatchScreen({ dispatch, control, timer, participants }) 
   const resetMatch = () => {
     Vibrations.vibrateDefault();
 
-    dispatch({type: NEW_MATCH});
+    dispatch({ type: NEW_MATCH });
   };
 
   return (
     <>
       <View style={styles.container}>
-        <ImageBackground source={bgImage} resizeMode="cover" style={styles.background} imageStyle={styles.bgImage}>
+        <ImageBackground
+          source={bgImage}
+          resizeMode="cover"
+          style={styles.background}
+          imageStyle={styles.bgImage}
+        >
           <View style={styles.header}>
-            <Text variant='displaySmall' style={styles.headlineText}>BJJ Match Score</Text>
+            <Text variant="displaySmall" style={styles.headlineText}>
+              BJJ Match Score
+            </Text>
             <CountDownTimer
               isMatchOn={control.matchOn}
               onFinish={finishMatch}
@@ -100,11 +111,7 @@ export default function MatchScreen({ dispatch, control, timer, participants }) 
         <StatusBar style="auto" />
       </View>
 
-      <FAB
-        icon="restart"
-        style={styles.fab}
-        onPress={newMatchPress}
-      />
+      <FAB icon="restart" style={styles.fab} onPress={newMatchPress} />
 
       <EndModal
         visible={finishModalVisible}
@@ -130,36 +137,36 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     // backgroundColor: 'rgba(255, 255, 255, 0.5)',
     marginTop: 50,
   },
   headlineText: {
-    color: 'white',
+    color: "white",
     marginTop: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    textShadowColor: 'rgba(0, 0, 0, 0.90)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
+    textAlign: "center",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    textShadowColor: "rgba(0, 0, 0, 0.90)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
   },
   participantsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   participantCard: {
-    width: '48%',
+    width: "48%",
     margin: 3,
     opacity: 0.9,
   },
   controlButtons: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     margin: 16,
     right: 0,
     bottom: 0,

@@ -1,11 +1,21 @@
-import { useReducer } from 'react';
-import { PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useReducer } from "react";
+import {
+  PaperProvider,
+  MD3LightTheme as DefaultTheme,
+} from "react-native-paper";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { FINISH_MATCH, NEW_MATCH, PAUSE_MATCH, START_MATCH, UPDATE_NAME, UPDATE_RESULTS } from './constants/actions';
-import MatchScreen from './screens/MatchScreen';
-import light from './themes/redAndBlue/light.json'
-import chooseWinnerKey from './utils/chooseWinnerKey';
+import {
+  FINISH_MATCH,
+  NEW_MATCH,
+  PAUSE_MATCH,
+  START_MATCH,
+  UPDATE_NAME,
+  UPDATE_RESULTS,
+} from "./constants/actions";
+import MatchScreen from "./screens/MatchScreen";
+import light from "./themes/redAndBlue/light.json";
+import chooseWinnerKey from "./utils/chooseWinnerKey";
 
 const theme = {
   ...DefaultTheme,
@@ -13,20 +23,20 @@ const theme = {
 };
 
 function matchReducer(currentState, action) {
-  console.log('Action dispatch.', action.type);
+  console.log("Action dispatch.", action.type);
 
-  switch(action.type) {
+  switch (action.type) {
     case UPDATE_NAME:
       currentState.participants[action.key] = {
         ...currentState.participants[action.key],
-        name: action.value
+        name: action.value,
       };
       return {
         ...currentState,
         control: {
           ...currentState.control,
-          canStart: canAcceptNames(currentState.participants)
-        }
+          canStart: canAcceptNames(currentState.participants),
+        },
       };
     case START_MATCH:
       return {
@@ -39,7 +49,7 @@ function matchReducer(currentState, action) {
         timer: {
           ...currentState.timer,
           play: true,
-        }
+        },
       };
     case PAUSE_MATCH:
       return {
@@ -52,7 +62,7 @@ function matchReducer(currentState, action) {
         timer: {
           ...currentState.timer,
           play: false,
-        }
+        },
       };
     case FINISH_MATCH:
       return actionFinishMatch(currentState);
@@ -65,7 +75,7 @@ function matchReducer(currentState, action) {
         control: {
           ...initialMatchState.control,
           resetSignal: !currentState.control.resetSignal,
-        }
+        },
       };
     default:
       throw Error(`Unkown action "${action.type}"`);
@@ -75,7 +85,7 @@ function matchReducer(currentState, action) {
 function actionFinishMatch(currentState) {
   const winnerKey = chooseWinnerKey(
     currentState.participants.P1,
-    currentState.participants.P2
+    currentState.participants.P2,
   );
   if (winnerKey) {
     currentState.participants.P1.winner = false;
@@ -92,7 +102,7 @@ function actionFinishMatch(currentState) {
     timer: {
       ...currentState.timer,
       play: false,
-    }
+    },
   };
 }
 
@@ -129,16 +139,16 @@ const initialMatchState = {
   },
   participants: {
     P1: {
-      key: 'P1',
-      corner: 'BLUE',
-      name: '',
+      key: "P1",
+      corner: "BLUE",
+      name: "",
       winner: false,
       results: { ...results },
     },
     P2: {
-      key: 'P2',
-      corner: 'RED',
-      name: '',
+      key: "P2",
+      corner: "RED",
+      name: "",
       winner: false,
       results: { ...results },
     },
@@ -146,7 +156,10 @@ const initialMatchState = {
 };
 
 export default function App() {
-  const [matchState, matchDispatch] = useReducer(matchReducer, initialMatchState);
+  const [matchState, matchDispatch] = useReducer(
+    matchReducer,
+    initialMatchState,
+  );
 
   return (
     <SafeAreaProvider>
@@ -161,4 +174,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-

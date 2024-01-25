@@ -1,31 +1,38 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { TextInput, Button, IconButton, Text, Badge, SegmentedButtons } from 'react-native-paper';
+import {
+  TextInput,
+  Button,
+  IconButton,
+  Text,
+  Badge,
+  SegmentedButtons,
+} from "react-native-paper";
 
 import Vibrations from "./Vibrations";
 import { UPDATE_NAME, UPDATE_RESULTS } from "../constants/actions";
-import Advantage from '../domain/Advantage';
-import Disqualification from '../domain/Disqualification';
-import FourPoints from '../domain/FourPoints';
-import Penalty from '../domain/Penalty';
-import Submission from '../domain/Submission';
-import ThreePoints from '../domain/ThreePoints';
-import TwoPoints from '../domain/TwoPoints';
-import WalkOver from '../domain/WalkOver';
+import Advantage from "../domain/Advantage";
+import Disqualification from "../domain/Disqualification";
+import FourPoints from "../domain/FourPoints";
+import Penalty from "../domain/Penalty";
+import Submission from "../domain/Submission";
+import ThreePoints from "../domain/ThreePoints";
+import TwoPoints from "../domain/TwoPoints";
+import WalkOver from "../domain/WalkOver";
 import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
 
-function Participant({dispatch, participant, isMatchOn, reset}) {
-  const END_GAME_TYPES = ['sub', 'dq', 'wo'];
+function Participant({ dispatch, participant, isMatchOn, reset }) {
+  const END_GAME_TYPES = ["sub", "dq", "wo"];
 
-  const [localPoints,] = useState(new Pile());
+  const [localPoints] = useState(new Pile());
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [totalPoints, setTotalPoints] = useState(0);
   const [penalties, setPenalties] = useState(0);
   const [advantages, setAdvantages] = useState(0);
-  const [endGame, setEndGame] = useState('');
+  const [endGame, setEndGame] = useState("");
 
   const updateStates = () => {
     const results = calculatePoints(localPoints);
@@ -33,14 +40,14 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
     setTotalPoints(results.rawPoints);
     setAdvantages(results.advantages);
     setPenalties(results.penalties);
-    setEndGame('');
+    setEndGame("");
 
     const mayHaveEndGame = localPoints.has(END_GAME_TYPES);
     if (mayHaveEndGame !== undefined) {
       setEndGame(mayHaveEndGame.type);
     }
 
-    dispatch({type: UPDATE_RESULTS, key: participant.key, results});
+    dispatch({ type: UPDATE_RESULTS, key: participant.key, results });
   };
 
   const addPoints = (pointsGiven) => {
@@ -56,7 +63,7 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
     localPoints.push(endGameGiven);
 
     updateStates();
-  }
+  };
 
   const undoPress = () => {
     if (localPoints.isEmpty()) {
@@ -78,7 +85,6 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
     updateStates();
   };
 
-
   const addPenalty = () => {
     if (penalties >= 4) {
       return;
@@ -88,10 +94,10 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
     localPoints.push(new Penalty());
 
     updateStates();
-  }
+  };
 
   const addAdvantage = () => {
-    if (advantages >=10) {
+    if (advantages >= 10) {
       return;
     }
 
@@ -102,19 +108,30 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
   };
 
   const handleNameBlur = () => {
-    dispatch({type: UPDATE_NAME, key: participant.key, value: name});
+    dispatch({ type: UPDATE_NAME, key: participant.key, value: name });
   };
 
   useEffect(() => {
-    setName('');
+    setName("");
     localPoints.clear();
     updateStates();
   }, [reset]);
 
   return (
-    <View style={[styles.container, { backgroundColor: ColorHelper.defineCardBgColor(participant.corner) }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: ColorHelper.defineCardBgColor(participant.corner) },
+      ]}
+    >
       {isMatchOn ? (
-        <Text variant="headlineMedium" style={[styles.nameText, {color: ColorHelper.defineNameColor(participant.corner)}]}>
+        <Text
+          variant="headlineMedium"
+          style={[
+            styles.nameText,
+            { color: ColorHelper.defineNameColor(participant.corner) },
+          ]}
+        >
           {name}
         </Text>
       ) : (
@@ -129,31 +146,63 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
       )}
 
       <View style={styles.points}>
-        <Text variant="headlineLarge" style={styles.pointsText}>{totalPoints}</Text>
-        <Text variant="labelSmall" style={styles.pointsLbl}>Pts.</Text>
+        <Text variant="headlineLarge" style={styles.pointsText}>
+          {totalPoints}
+        </Text>
+        <Text variant="labelSmall" style={styles.pointsLbl}>
+          Pts.
+        </Text>
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsGroup}>
-          <Button mode="elevated" style={styles.btnPoint} onPress={ () => addPoints(new TwoPoints()) }>
+          <Button
+            mode="elevated"
+            style={styles.btnPoint}
+            onPress={() => addPoints(new TwoPoints())}
+          >
             <Text>+2</Text>
           </Button>
-          <Button mode="elevated" style={styles.btnPoint} onPress={ () => addPoints(new ThreePoints()) }>
+          <Button
+            mode="elevated"
+            style={styles.btnPoint}
+            onPress={() => addPoints(new ThreePoints())}
+          >
             <Text>+3</Text>
           </Button>
-          <Button mode="elevated" style={styles.btnPoint} onPress={ () => addPoints(new FourPoints()) }>
+          <Button
+            mode="elevated"
+            style={styles.btnPoint}
+            onPress={() => addPoints(new FourPoints())}
+          >
             <Text>+4</Text>
           </Button>
         </View>
         <View style={styles.buttonsGroup}>
           <View style={styles.extraWrapper}>
-          { advantages > 0 ? (<Badge style={styles.advantageBadge}>{advantages}</Badge>) : <></> }
-            <Button mode="elevated" style={styles.btnExtra} onPress={addAdvantage}>
+            {advantages > 0 ? (
+              <Badge style={styles.advantageBadge}>{advantages}</Badge>
+            ) : (
+              <></>
+            )}
+            <Button
+              mode="elevated"
+              style={styles.btnExtra}
+              onPress={addAdvantage}
+            >
               <Text>Adv.</Text>
             </Button>
           </View>
           <View style={styles.extraWrapper}>
-            { penalties > 0 ? (<Badge style={styles.penaltyBadge}>{penalties}</Badge>) : <></> }
-            <Button mode="elevated" style={styles.btnExtra} onPress={addPenalty}>
+            {penalties > 0 ? (
+              <Badge style={styles.penaltyBadge}>{penalties}</Badge>
+            ) : (
+              <></>
+            )}
+            <Button
+              mode="elevated"
+              style={styles.btnExtra}
+              onPress={addPenalty}
+            >
               <Text>Pnlt.</Text>
             </Button>
           </View>
@@ -168,18 +217,18 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
           onValueChange={setEndGame}
           buttons={[
             {
-              value: 'sub',
-              label: 'Sub',
+              value: "sub",
+              label: "Sub",
               onPress: () => addEndGame(new Submission()),
             },
             {
-              value: 'dq',
-              label: 'DQ',
+              value: "dq",
+              label: "DQ",
               onPress: () => addEndGame(new Disqualification()),
             },
             {
-              value: 'wo',
-              label: 'W.O.',
+              value: "wo",
+              label: "W.O.",
               onPress: () => addEndGame(new WalkOver()),
             },
           ]}
@@ -187,11 +236,17 @@ function Participant({dispatch, participant, isMatchOn, reset}) {
       </View>
 
       <View style={[styles.buttonsContainer, styles.centerElements]}>
-        <IconButton mode="contained" icon="undo" style={styles.btnUndo} onPress={undoPress} onLongPress={undoLongPress} />
+        <IconButton
+          mode="contained"
+          icon="undo"
+          style={styles.btnUndo}
+          onPress={undoPress}
+          onLongPress={undoLongPress}
+        />
       </View>
     </View>
   );
-};
+}
 export default Participant;
 
 const styles = StyleSheet.create({
@@ -200,70 +255,67 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
   },
   centerElements: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   nameText: {
     height: 56,
-    textAlign: 'center',
-    fontWeight: '700',
-    verticalAlign: 'middle',
+    textAlign: "center",
+    fontWeight: "700",
+    verticalAlign: "middle",
   },
   nameTxtInput: {
-    width: '90%',
-    textAlign: 'center',
-    alignSelf: 'center',
+    width: "90%",
+    textAlign: "center",
+    alignSelf: "center",
   },
   points: {
-    flexDirection: 'row',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
   },
   pointsText: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   pointsLbl: {
-    textAlign: 'center',
-    verticalAlign: 'bottom',
+    textAlign: "center",
+    verticalAlign: "bottom",
   },
   buttonsContainer: {
     flexDirection: "row",
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   buttonsGroup: {
     flexDirection: "column",
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   btnPoint: {
     width: 20,
-    margin: 4
+    margin: 4,
   },
   btnExtra: {
     width: 80,
     margin: 4,
     zIndex: 1,
   },
-  btnUndo: {
-  },
-  extraWrapper: {
-
-  },
+  btnUndo: {},
+  extraWrapper: {},
   penaltyBadge: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 2,
   },
   advantageBadge: {
-    backgroundColor: 'gold',
-    color: 'orangered',
-    position: 'absolute',
+    backgroundColor: "gold",
+    color: "orangered",
+    position: "absolute",
     zIndex: 2,
   },
   segmentedButtonsWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
 
-    textAlign: 'center',
+    textAlign: "center",
   },
   endGameButtons: {
     marginVertical: 10,
     marginLeft: 5,
-    transform: [{scale: 0.70}],
+    transform: [{ scale: 0.7 }],
   },
 });

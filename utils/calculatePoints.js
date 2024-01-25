@@ -13,26 +13,26 @@ export default function calculatePoints(pointsPile) {
   };
 
   for (const position of pointsPile) {
-    switch(position.type) {
-      case 'points':
+    switch (position.type) {
+      case "points":
         results.rawPoints += position.points;
         results.processedPoints += position.points;
         break;
-      case 'advantage':
+      case "advantage":
         results.advantages++;
         results.processedPoints += ADVANTAGE_VALUE;
-        break
-      case 'penalty':
+        break;
+      case "penalty":
         results.penalties++;
         results.processedPoints -= PENALTY_VALUE;
         break;
-      case 'sub':
+      case "sub":
         results.sub = true;
         break;
-      case 'dq':
+      case "dq":
         results.dq = true;
         break;
-      case 'wo':
+      case "wo":
         results.wo = true;
         break;
       default:

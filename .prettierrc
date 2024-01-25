@@ -1,17 +1,4 @@
 {
-  "arrowParens": "avoid",
-  "bracketSameLine": true,
-  "bracketSpacing": false,
-  "requirePragma": true,
-  "singleQuote": true,
-  "trailingComma": "all",
-  "endOfLine": "lf",
-  "overrides": [
-    {
-      "files": [
-        "*.js",
-        "*.js.flow"
-      ]
-    }
-  ]
+  "tabWidth": 2,
+  "useTabs": false
 }

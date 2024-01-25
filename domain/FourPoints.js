@@ -1,6 +1,6 @@
 import RefereeOrder from "./RefereeOrder";
 
 export default class FourPoints extends RefereeOrder {
-  type='points';
+  type = "points";
   points = 4;
 }
