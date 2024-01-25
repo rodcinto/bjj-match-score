@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { TextInput, Button, IconButton, Text, Badge, SegmentedButtons } from 'react-native-paper';
 
 import Vibrations from "./Vibrations";
+import { UPDATE_NAME, UPDATE_RESULTS } from "../constants/actions";
 import Advantage from '../domain/Advantage';
 import Disqualification from '../domain/Disqualification';
 import FourPoints from '../domain/FourPoints';
@@ -14,9 +15,8 @@ import WalkOver from '../domain/WalkOver';
 import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
-import { UPDATE_NAME, UPDATE_RESULTS } from "../constants/actions";
 
-function Participant({dispatch, participant, isMatchOn, reset}, ref) {
+function Participant({dispatch, participant, isMatchOn, reset}) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];
 
   const [localPoints,] = useState(new Pile());

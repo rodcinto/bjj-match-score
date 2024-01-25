@@ -9,7 +9,7 @@ function generateTimerId() {
   return `timer_id_${Date.now()}`;
 }
 
-function CountDownTimer({ isMatchOn, play, onFinish, reset }, ref) {
+function CountDownTimer({ isMatchOn, play, onFinish, reset }) {
   const [timerId, setTimerId] = useState('initial_id');
   const [seconds, setSeconds] = useState(300);
 
