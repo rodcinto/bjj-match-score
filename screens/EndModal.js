@@ -5,6 +5,14 @@ import { Modal, Text, ActivityIndicator } from "react-native-paper";
 import ColorHelper from "../utils/ColorHelper";
 
 function ParticipantDetails({ participant }) {
+  const printAdvantage = (adv) => {
+    if (adv === 0 || adv > 1) return `${adv} Advantages`;
+    return `${adv} Advantage`;
+  };
+  const printPenalty = (pnlt) => {
+    if (pnlt === 0 || pnlt > 1) return `${pnlt} Penalties`;
+    return `${pnlt} Penalty`;
+  };
   return (
     <View style={styles.detailsSet}>
       <Text
@@ -15,10 +23,10 @@ function ParticipantDetails({ participant }) {
       </Text>
       <Text variant="bodyMedium">{participant.results.rawPoints} points</Text>
       <Text variant="bodyMedium">
-        {participant.results.advantages} Advantages
+        {printAdvantage(participant.results.advantages)}
       </Text>
       <Text variant="bodyMedium">
-        {participant.results.penalties} Penalties
+        {printPenalty(participant.results.penalties)}
       </Text>
     </View>
   );
