@@ -17,7 +17,7 @@ export default class ColorHelper {
       return 'white';
     }
 
-    return winner.key === 'BLUE' ? BLUE_CORNER_BG_COLOR : RED_CORNER_BG_COLOR
+    return winner.corner === 'BLUE' ? BLUE_CORNER_BG_COLOR : RED_CORNER_BG_COLOR
   }
 
   static defineCardBgColor(corner) {
