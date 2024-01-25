@@ -8,6 +8,7 @@ import FinishButton from '../components/FinishButton';
 import Participant from '../components/Participant';
 import PlayPause from '../components/PlayPause';
 import Vibrations from '../components/Vibrations';
+import { FINISH_MATCH, NEW_MATCH } from '../constants/actions';
 import EndModal from '../screens/EndModal';
 import NewMatchDialog from '../screens/NewMatchDialog';
 
@@ -26,7 +27,7 @@ export default function MatchScreen({ dispatch, control, timer, participants }) 
   const finishMatch = () => {
     Vibrations.finish();
 
-    dispatch({type: 'finishMatch'});
+    dispatch({type: FINISH_MATCH});
 
     showFinishModal();
   };
@@ -47,7 +48,7 @@ export default function MatchScreen({ dispatch, control, timer, participants }) 
   const resetMatch = () => {
     Vibrations.vibrateDefault();
 
-    dispatch({type: 'newMatch'});
+    dispatch({type: NEW_MATCH});
   };
 
   return (

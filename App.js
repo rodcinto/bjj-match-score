@@ -2,6 +2,7 @@ import { useReducer } from 'react';
 import { PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { FINISH_MATCH, NEW_MATCH, PAUSE_MATCH, START_MATCH, UPDATE_NAME, UPDATE_RESULTS } from './constants/actions';
 import MatchScreen from './screens/MatchScreen';
 import light from './themes/redAndBlue/light.json'
 import chooseWinnerKey from './utils/chooseWinnerKey';
@@ -15,7 +16,7 @@ function matchReducer(currentState, action) {
   console.log('Action dispatch.', action.type);
 
   switch(action.type) {
-    case 'updateName':
+    case UPDATE_NAME:
       currentState.participants[action.key] = {
         ...currentState.participants[action.key],
         name: action.value
@@ -27,7 +28,7 @@ function matchReducer(currentState, action) {
           canStart: canAcceptNames(currentState.participants)
         }
       };
-    case 'startMatch':
+    case START_MATCH:
       return {
         ...currentState,
         control: {
@@ -40,7 +41,7 @@ function matchReducer(currentState, action) {
           play: true,
         }
       };
-    case 'pauseMatch':
+    case PAUSE_MATCH:
       return {
         ...currentState,
         control: {
@@ -53,12 +54,12 @@ function matchReducer(currentState, action) {
           play: false,
         }
       };
-    case 'finishMatch':
+    case FINISH_MATCH:
       return actionFinishMatch(currentState);
-    case 'updateResults':
+    case UPDATE_RESULTS:
       currentState.participants[action.key].results = action.results;
       return currentState;
-    case 'newMatch':
+    case NEW_MATCH:
       return {
         ...initialMatchState,
         control: {

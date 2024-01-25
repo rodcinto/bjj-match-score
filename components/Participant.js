@@ -14,6 +14,7 @@ import WalkOver from '../domain/WalkOver';
 import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
+import { UPDATE_NAME, UPDATE_RESULTS } from "../constants/actions";
 
 function Participant({dispatch, participant, isMatchOn, reset}, ref) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];
@@ -39,7 +40,7 @@ function Participant({dispatch, participant, isMatchOn, reset}, ref) {
       setEndGame(mayHaveEndGame.type);
     }
 
-    dispatch({type: 'updateResults', key: participant.key, results});
+    dispatch({type: UPDATE_RESULTS, key: participant.key, results});
   };
 
   const addPoints = (pointsGiven) => {
@@ -101,7 +102,7 @@ function Participant({dispatch, participant, isMatchOn, reset}, ref) {
   };
 
   const handleNameBlur = () => {
-    dispatch({type: 'updateName', key: participant.key, value: name});
+    dispatch({type: UPDATE_NAME, key: participant.key, value: name});
   };
 
   useEffect(() => {
