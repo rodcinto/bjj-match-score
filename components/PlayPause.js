@@ -4,13 +4,14 @@ import { IconButton } from 'react-native-paper';
 
 import Vibrations from "./Vibrations";
 
-export default function PlayPause({onPress, canStart, isMatchOn}) {
+export default function PlayPause({dispatch, onPress, canStart, isMatchOn}) {
   const [isPlaying, setPlaying] = useState(false);
 
   const handlePress = () => {
     setPlaying(!isPlaying);
     Vibrations.playPause();
-    onPress();
+
+    dispatch({type: isMatchOn ? 'pauseMatch' : 'startMatch'});
   }
 
   useEffect(() => {
