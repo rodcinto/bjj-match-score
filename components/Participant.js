@@ -1,4 +1,4 @@
-import { forwardRef, useState, useImperativeHandle } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput, Button, IconButton, Text, Badge, SegmentedButtons } from 'react-native-paper';
 
@@ -12,10 +12,14 @@ import ThreePoints from '../domain/ThreePoints';
 import TwoPoints from '../domain/TwoPoints';
 import WalkOver from '../domain/WalkOver';
 import ColorHelper from "../utils/ColorHelper";
+import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
 
-function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
+function Participant({dispatch, participant, isMatchOn, reset}, ref) {
   const END_GAME_TYPES = ['sub', 'dq', 'wo'];
+
+  const [localPoints,] = useState(new Pile());
+
   const [name, setName] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
   const [penalties, setPenalties] = useState(0);
@@ -23,36 +27,45 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
   const [endGame, setEndGame] = useState('');
 
   const updateStates = () => {
-    const results = calculatePoints(pointsPile);
+    const results = calculatePoints(localPoints);
 
     setTotalPoints(results.rawPoints);
     setAdvantages(results.advantages);
     setPenalties(results.penalties);
+    setEndGame('');
+
+    const mayHaveEndGame = localPoints.has(END_GAME_TYPES);
+    if (mayHaveEndGame !== undefined) {
+      setEndGame(mayHaveEndGame.type);
+    }
+
+    dispatch({type: 'updateResults', key: participant.key, results});
   };
 
-  const addPoints = (points) => {
-    if (END_GAME_TYPES.includes(points.type)) {
-      Vibrations.endGame();
-      pointsPile.searchAndDestroy(END_GAME_TYPES);
-    } else {
-      Vibrations.byPoints(points.points);
-    }
-    pointsPile.push(points);
+  const addPoints = (pointsGiven) => {
+    Vibrations.byPoints(pointsGiven.points);
+    localPoints.push(pointsGiven);
+
     updateStates();
   };
 
+  const addEndGame = (endGameGiven) => {
+    Vibrations.endGame();
+    localPoints.searchAndDestroy(END_GAME_TYPES);
+    localPoints.push(endGameGiven);
+
+    updateStates();
+  }
+
   const undoPress = () => {
-    if (pointsPile.isEmpty()) {
+    if (localPoints.isEmpty()) {
       return;
     }
 
     Vibrations.undo();
-
-    const removedOrder = pointsPile.pop();
-
-    if (END_GAME_TYPES.includes(removedOrder.type)) {
-      pointsPile.searchAndDestroy(END_GAME_TYPES);
-      setEndGame('');
+    const lastPoint = localPoints.pop();
+    if (END_GAME_TYPES.includes(lastPoint.type)) {
+      localPoints.searchAndDestroy(END_GAME_TYPES);
     }
 
     updateStates();
@@ -60,13 +73,10 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
 
   const undoLongPress = () => {
     Vibrations.undo();
-    clearPile();
+    localPoints.clear();
+    updateStates();
   };
 
-  const clearPile = () => {
-    pointsPile.clear();
-    updateStates();
-  }
 
   const addPenalty = () => {
     if (penalties >= 4) {
@@ -74,8 +84,8 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
     }
 
     Vibrations.penalty();
+    localPoints.push(new Penalty());
 
-    pointsPile.push(new Penalty());
     updateStates();
   }
 
@@ -83,37 +93,37 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
     if (advantages >=10) {
       return;
     }
+
     Vibrations.advantage();
-    pointsPile.push(new Advantage());
+    localPoints.push(new Advantage());
+
     updateStates();
   };
 
-  const handleNameChange = (text) => {
-    setName(text);
-    onNameChange(text);
-  }
+  const handleNameBlur = () => {
+    dispatch({type: 'updateName', key: participant.key, value: name});
+  };
 
-  useImperativeHandle(ref, () => {
-    return {
-      resetParticipant: () => {
-        setName('');
-        clearPile();
-      }
-    };
-  });
+  useEffect(() => {
+    setName('');
+    localPoints.clear();
+    updateStates();
+  }, [reset]);
 
   return (
-    <View style={[styles.container, { backgroundColor: ColorHelper.defineCardBgColor(corner) }]}>
+    <View style={[styles.container, { backgroundColor: ColorHelper.defineCardBgColor(participant.corner) }]}>
       {isMatchOn ? (
-        <Text variant="headlineMedium" style={[styles.nameText, {color: ColorHelper.defineNameColor(corner)}]}>{name}</Text>
+        <Text variant="headlineMedium" style={[styles.nameText, {color: ColorHelper.defineNameColor(participant.corner)}]}>
+          {name}
+        </Text>
       ) : (
         <TextInput
           mode="outlined"
-          placeholder="Name"
-          label="Before start"
+          label={`${participant.corner} CORNER`}
           style={styles.nameTxtInput}
           value={name}
-          onChangeText={ handleNameChange }
+          onChangeText={setName}
+          onBlur={handleNameBlur}
         />
       )}
 
@@ -159,17 +169,17 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
             {
               value: 'sub',
               label: 'Sub',
-              onPress: () => addPoints(new Submission()),
+              onPress: () => addEndGame(new Submission()),
             },
             {
               value: 'dq',
               label: 'DQ',
-              onPress: () => addPoints(new Disqualification()),
+              onPress: () => addEndGame(new Disqualification()),
             },
             {
               value: 'wo',
               label: 'W.O.',
-              onPress: () => addPoints(new WalkOver()),
+              onPress: () => addEndGame(new WalkOver()),
             },
           ]}
         />
@@ -181,7 +191,7 @@ function Participant({corner, pointsPile, onNameChange, isMatchOn}, ref) {
     </View>
   );
 };
-export default forwardRef(Participant);
+export default Participant;
 
 const styles = StyleSheet.create({
   container: {
