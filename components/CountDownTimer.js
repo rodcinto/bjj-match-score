@@ -1,5 +1,4 @@
-// import { useRef, useState, useEffect } from 'react';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 import { Button } from 'react-native-paper';
@@ -10,56 +9,49 @@ function generateTimerId() {
   return `timer_id_${Date.now()}`;
 }
 
-function CountDownTimer(props, ref) {
+function CountDownTimer({ isMatchOn, play, onFinish, reset }, ref) {
   const [timerId, setTimerId] = useState('initial_id');
-  const [until, setUntil] = useState(300);
+  const [seconds, setSeconds] = useState(300);
 
   const SECONDS_ALPHA = 30;
 
   const increaseTime = function() {
-    if ((until + SECONDS_ALPHA) <= 600) {
-      setUntil(until + SECONDS_ALPHA);
+    if ((seconds + SECONDS_ALPHA) <= 600) {
       Vibrations.vibrateDefault();
-    }
-  }
-  const decreaseTime = function() {
-    if ((until - SECONDS_ALPHA) >= 60) {
-      setUntil(until - SECONDS_ALPHA);
-      Vibrations.vibrateDefault();
+      setSeconds(seconds + SECONDS_ALPHA);
     }
   }
 
-  useImperativeHandle(ref, () => {
-    return {
-      resetTimer: () => {
-        setTimerId(generateTimerId());
-      }
-    };
-  });
+  const decreaseTime = function() {
+    if ((seconds - SECONDS_ALPHA) >= 30) {
+      Vibrations.vibrateDefault();
+      setSeconds(seconds - SECONDS_ALPHA);
+    }
+  }
 
   useEffect(() => {
-    if(timerId === 'initial_id' && until === 300) {
+    if(timerId === 'initial_id' && seconds === 300) {
       // Skip page load.
       return;
     }
 
     setTimerId(generateTimerId());
-  }, [until]);
+  }, [seconds, reset]);
 
   return (
       <View style={styles.container}>
         <CountDown
           id={timerId}
-          until={until}
+          until={seconds}
           size={50}
-          onFinish={props.onFinish}
+          onFinish={onFinish}
           digitStyle={styles.digitStyle}
           digitTxtStyle={styles.digitTxtStyle}
           separatorStyle={styles.separatorStyle}
           timeToShow={['M', 'S']}
           timeLabels={{m: '', s: ''}}
           showSeparator
-          running={props.play}
+          running={play}
         />
         <View style={styles.btnContainer}>
           <Button
@@ -67,21 +59,21 @@ function CountDownTimer(props, ref) {
             style={styles.btn}
             icon="plus"
             onPress={increaseTime}
-            disabled={props.isMatchOn}
+            disabled={isMatchOn}
           />
           <Button
             mode="elevated"
             style={styles.btn}
             icon="minus"
             onPress={decreaseTime}
-            disabled={props.isMatchOn}
+            disabled={isMatchOn}
           />
         </View>
       </View>
   );
 }
 
-export default forwardRef(CountDownTimer)
+export default CountDownTimer
 
 const styles = StyleSheet.create({
   container: {
