@@ -2,7 +2,7 @@ export const P1_KEY = "P1";
 export const P2_KEY = "P2";
 
 export const BLUE = "BLUE";
-export const RED = "BLUE";
+export const RED = "RED";
 
 // Timer
 export const TIMER_ID = "timer_id";

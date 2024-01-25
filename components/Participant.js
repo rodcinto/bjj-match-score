@@ -141,6 +141,9 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       ) : (
         <TextInput
           mode="outlined"
+          outlineStyle={{borderColor: ColorHelper.defineNameColor(participant.corner)}}
+          activeOutlineColor={ColorHelper.defineNameColor(participant.corner)}
+          textColor={ColorHelper.defineNameColor(participant.corner)}
           label={`${participant.corner} CORNER`}
           style={styles.nameTxtInput}
           value={name}
