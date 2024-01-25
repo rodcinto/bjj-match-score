@@ -11,6 +11,12 @@ import {
 
 import Vibrations from "./Vibrations";
 import { UPDATE_NAME, UPDATE_RESULTS } from "../constants/actions";
+import {
+  END_GAME_DQ,
+  END_GAME_SUB,
+  END_GAME_TYPES,
+  END_GAME_WO,
+} from "../constants/application";
 import Advantage from "../domain/Advantage";
 import Disqualification from "../domain/Disqualification";
 import FourPoints from "../domain/FourPoints";
@@ -24,8 +30,6 @@ import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
 
 function Participant({ dispatch, participant, isMatchOn, reset }) {
-  const END_GAME_TYPES = ["sub", "dq", "wo"];
-
   const [localPoints] = useState(new Pile());
 
   const [name, setName] = useState("");
@@ -217,17 +221,17 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
           onValueChange={setEndGame}
           buttons={[
             {
-              value: "sub",
+              value: END_GAME_SUB,
               label: "Sub",
               onPress: () => addEndGame(new Submission()),
             },
             {
-              value: "dq",
+              value: END_GAME_DQ,
               label: "DQ",
               onPress: () => addEndGame(new Disqualification()),
             },
             {
-              value: "wo",
+              value: END_GAME_WO,
               label: "W.O.",
               onPress: () => addEndGame(new WalkOver()),
             },

@@ -13,6 +13,7 @@ import {
   UPDATE_NAME,
   UPDATE_RESULTS,
 } from "./constants/actions";
+import { BLUE, P1_KEY, P2_KEY, RED } from "./constants/application";
 import MatchScreen from "./screens/MatchScreen";
 import light from "./themes/redAndBlue/light.json";
 import chooseWinnerKey from "./utils/chooseWinnerKey";
@@ -134,20 +135,19 @@ const initialMatchState = {
     resetSignal: false,
   },
   timer: {
-    seconds: 300,
     play: false,
   },
   participants: {
     P1: {
-      key: "P1",
-      corner: "BLUE",
+      key: P1_KEY,
+      corner: BLUE,
       name: "",
       winner: false,
       results: { ...results },
     },
     P2: {
-      key: "P2",
-      corner: "RED",
+      key: P2_KEY,
+      corner: RED,
       name: "",
       winner: false,
       results: { ...results },
