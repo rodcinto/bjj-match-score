@@ -22,14 +22,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
         "package": "com.rodcinto.bjj_match_score"
-      }
+      },
+      "package": "com.rodcinto.bjjmatchscore"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "702d7235-7351-4e8d-89aa-40a65162a72e"
+        "projectId": "853e9a47-5097-463f-b8cd-66fd02146059"
       }
     }
   }
