@@ -20,14 +20,21 @@ export default function ThemedPaperProvider({ children }) {
           ...MD3DarkTheme,
           colors: {
             ...theme.dark,
-            // ...md3Colors.schemes.dark
+            primary: "#ffb4a4",
+            secondary: "#ffb596",
+            tertiary: "#ffb877"
+            // ...md3Colors.schemes.dark``
           }
         }
       :
         {
           ...MD3LightTheme,
+          roundness: 2,
           colors: {
             ...theme.light,
+            primary: "#9c4330",
+            secondary: "#99461d",
+            tertiary: "#8e4f00"
             // ...md3Colors.schemes.light``
           }
         },
