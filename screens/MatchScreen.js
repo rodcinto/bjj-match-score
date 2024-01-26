@@ -111,7 +111,14 @@ export default function MatchScreen({
         <StatusBar style="auto" />
       </View>
 
-      <FAB icon="restart" style={styles.fab} onPress={newMatchPress} />
+      <FAB
+        icon="restart"
+        size="medium"
+        mode="elevated"
+        variant="tertiary"
+        style={styles.fab}
+        onPress={newMatchPress}
+      />
 
       <EndModal
         visible={finishModalVisible}
