@@ -1,10 +1,7 @@
 import { useReducer } from "react";
-import {
-  PaperProvider,
-  MD3LightTheme as DefaultTheme,
-} from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import ThemedPaperProvider from './components/ThemedPaperProvider';
 import {
   FINISH_MATCH,
   NEW_MATCH,
@@ -15,13 +12,7 @@ import {
 } from "./constants/actions";
 import { BLUE, P1_KEY, P2_KEY, RED } from "./constants/application";
 import MatchScreen from "./screens/MatchScreen";
-import light from "./themes/redAndBlue/light.json";
 import chooseWinnerKey from "./utils/chooseWinnerKey";
-
-const theme = {
-  ...DefaultTheme,
-  colors: light.colors,
-};
 
 function matchReducer(currentState, action) {
   console.log("Action dispatch.", action.type);
@@ -167,14 +158,14 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <PaperProvider theme={theme}>
+      <ThemedPaperProvider>
         <MatchScreen
           dispatch={matchDispatch}
           control={matchState.control}
           timer={matchState.timer}
           participants={matchState.participants}
         />
-      </PaperProvider>
+      </ThemedPaperProvider>
     </SafeAreaProvider>
   );
 }
