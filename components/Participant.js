@@ -28,6 +28,8 @@ import WalkOver from "../domain/WalkOver";
 import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
+import PointsButton from "./PointsButton";
+import ExtraButton from "./ExtraButton";
 
 function Participant({ dispatch, participant, isMatchOn, reset }) {
   const [localPoints] = useState(new Pile());
@@ -162,63 +164,28 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsGroup}>
-          <Button
-            mode="elevated"
-            style={styles.btnPoint}
-            onPress={() => addPoints(new TwoPoints())}
-          >
-            <Text>+2</Text>
-          </Button>
-          <Button
-            mode="elevated"
-            style={styles.btnPoint}
-            onPress={() => addPoints(new ThreePoints())}
-          >
-            <Text>+3</Text>
-          </Button>
-          <Button
-            mode="elevated"
-            style={styles.btnPoint}
-            onPress={() => addPoints(new FourPoints())}
-          >
-            <Text>+4</Text>
-          </Button>
+          <PointsButton labelText="+2" onPress={() => addPoints(new TwoPoints())} />
+          <PointsButton labelText="+3" onPress={() => addPoints(new ThreePoints())} />
+          <PointsButton labelText="+4" onPress={() => addPoints(new FourPoints())} />
         </View>
         <View style={styles.buttonsGroup}>
-          <View style={styles.extraWrapper}>
-            {advantages > 0 ? (
-              <Badge style={styles.advantageBadge}>{advantages}</Badge>
-            ) : (
-              <></>
-            )}
-            <Button
-              mode="elevated"
-              style={styles.btnExtra}
-              onPress={addAdvantage}
-            >
-              <Text>Adv.</Text>
-            </Button>
-          </View>
-          <View style={styles.extraWrapper}>
-            {penalties > 0 ? (
-              <Badge style={styles.penaltyBadge}>{penalties}</Badge>
-            ) : (
-              <></>
-            )}
-            <Button
-              mode="elevated"
-              style={styles.btnExtra}
-              onPress={addPenalty}
-            >
-              <Text>Pnlt.</Text>
-            </Button>
-          </View>
+          <ExtraButton
+            amount={advantages}
+            labelText="Adv."
+            badgeStyles={styles.advantageBadge}
+            onPress={addAdvantage}
+          />
+          <ExtraButton
+            amount={penalties}
+            labelText="Pnlt."
+            badgeStyles={styles.penaltyBadge}
+            onPress={addPenalty}
+          />
         </View>
       </View>
 
       <View style={styles.segmentedButtonsWrapper}>
         <SegmentedButtons
-          density="medium"
           style={styles.endGameButtons}
           value={endGame}
           onValueChange={setEndGame}
@@ -294,17 +261,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignSelf: "center",
   },
-  btnPoint: {
-    width: 20,
-    margin: 4,
-  },
   btnExtra: {
     width: 80,
     margin: 4,
     zIndex: 1,
   },
   btnUndo: {},
-  extraWrapper: {},
   penaltyBadge: {
     position: "absolute",
     zIndex: 2,
