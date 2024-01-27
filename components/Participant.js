@@ -17,6 +17,7 @@ import {
   END_GAME_TYPES,
   END_GAME_WO,
   MAX_NAME_SIZE,
+  SHRINK_NAME_ON,
 } from "../constants/application";
 import Advantage from "../domain/Advantage";
 import Disqualification from "../domain/Disqualification";
@@ -113,7 +114,12 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
   };
 
   const handleNameChange = (text) => {
-    setName(text.length <= MAX_NAME_SIZE ? text : name);
+    if (text.length > MAX_NAME_SIZE) {
+      return;
+    }
+    setName(text);
+    dispatch({ type: UPDATE_NAME, key: participant.key, value: name });
+
   }
 
   const handleNameBlur = () => {
@@ -135,7 +141,7 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
     >
       {isMatchOn ? (
         <Text
-          variant={ name.length > 10 ? "headlineSmall" : "headlineMedium" }
+          variant={ name.length > SHRINK_NAME_ON ? "headlineSmall" : "headlineMedium" }
           style={[
             styles.nameText,
             { color: ColorHelper.defineNameColor(participant.corner) },
