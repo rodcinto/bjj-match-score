@@ -1,6 +1,7 @@
 export const APP_TITLE = "BJJ Match Score";
 
 export const MAX_NAME_SIZE = 20;
+export const SHRINK_NAME_ON = 10;
 
 export const P1_KEY = "P1";
 export const P2_KEY = "P2";
