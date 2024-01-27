@@ -1,20 +1,46 @@
+import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Text, Snackbar } from "react-native-paper";
 
 export default function FinishButton(props) {
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+
   const handlePress = () => {
     props.onLongPress();
   };
+
+  const handleSimplePress = () => {
+    setSnackbarVisible(true);
+  };
+
+  const hideSnackbar = () => {
+    setSnackbarVisible(false);
+  };
+
   return (
-    <Button
-      mode="elevated"
-      icon="flag-checkered"
-      onLongPress={handlePress}
-      disabled={!props.canFinish}
-      style={styles.finishBtn}
-    >
-      <Text variant="titleMedium">Finish</Text>
-    </Button>
+    <>
+      <Button
+        mode="elevated"
+        icon="flag-checkered"
+        onLongPress={handlePress}
+        onPress={handleSimplePress}
+        disabled={!props.canFinish}
+        style={styles.finishBtn}
+      >
+        <Text variant="titleMedium">Finish</Text>
+      </Button>
+      <Snackbar
+        duration={1000}
+        visible={snackbarVisible}
+        onDismiss={hideSnackbar}
+        style={styles.snackbar}
+        action={{
+          label: 'OK',
+          onPress: hideSnackbar
+        }}>
+        Long press to finish.
+      </Snackbar>
+    </>
   );
 }
 
@@ -24,4 +50,7 @@ const styles = StyleSheet.create({
     width: "55%",
   },
   finishBtnTxt: {},
+  snackbar: {
+    zIndex: 1,
+  }
 });
