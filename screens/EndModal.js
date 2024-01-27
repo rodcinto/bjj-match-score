@@ -55,7 +55,7 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
     setWinner(null);
     setDefeated(null);
 
-    let win = '', def = '';
+    let win, def = '';
     let updateReason = END_MODAL_REASON_POINTS;
 
     if (participants.P1.winner) {
@@ -65,9 +65,6 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
       win = participants.P2;
       def = participants.P1;
     } else {
-      setReason(END_MODAL_REASON_POINTS);
-      setWinner(null);
-      setDefeated(null);
       return;
     }
 
@@ -78,7 +75,14 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
     setReason(updateReason);
     setWinner(win);
     setDefeated(def);
-  }, [visible, reset]);
+
+  }, [visible]);
+
+  useEffect(() => {
+    setReason(END_MODAL_REASON_POINTS);
+    setWinner(null);
+    setDefeated(null);
+  }, [reset]);
 
   return (
     <Modal

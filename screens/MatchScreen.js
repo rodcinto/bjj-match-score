@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import { Card, Text, FAB } from "react-native-paper";
 

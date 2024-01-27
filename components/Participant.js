@@ -118,12 +118,11 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       return;
     }
     setName(text);
-    dispatch({ type: UPDATE_NAME, key: participant.key, value: name });
-
+    dispatch({ type: UPDATE_NAME, key: participant.key, value: name.trim() });
   }
 
   const handleNameBlur = () => {
-    dispatch({ type: UPDATE_NAME, key: participant.key, value: name });
+    dispatch({ type: UPDATE_NAME, key: participant.key, value: name.trim() });
   };
 
   useEffect(() => {

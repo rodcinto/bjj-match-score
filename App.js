@@ -62,11 +62,22 @@ function matchReducer(currentState, action) {
       currentState.participants[action.key].results = action.results;
       return currentState;
     case NEW_MATCH:
+      console.log(`CURRENT STATE`, createInitialMatchState());
       return {
-        ...createInitialMatchState(),
+        ...initialMatchState,
+        participants: {
+          P1: {
+            ...initialMatchState.participants.P1,
+            name: "",
+          },
+          P2: {
+            ...initialMatchState.participants.P2,
+            name: "",
+          },
+        },
         control: {
           ...initialMatchState.control,
-          resetSignal: !currentState.control.resetSignal,
+          resetSignal: !currentState.control.resetSignal
         },
       };
     default:
@@ -157,8 +168,7 @@ function createInitialMatchState() {
 export default function App() {
   const [matchState, matchDispatch] = useReducer(
     matchReducer,
-    initialMatchState,
-    createInitialMatchState
+    initialMatchState
   );
 
   return (
@@ -166,9 +176,9 @@ export default function App() {
       <ThemedPaperProvider>
         <MatchScreen
           dispatch={matchDispatch}
-          control={{ ...matchState.control }}
-          timer={{ ...matchState.timer }}
-          participants={{ ...matchState.participants }}
+          control={matchState.control }
+          timer={matchState.timer }
+          participants={matchState.participants }
         />
       </ThemedPaperProvider>
     </SafeAreaProvider>
