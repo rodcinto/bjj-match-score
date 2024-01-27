@@ -62,7 +62,6 @@ function matchReducer(currentState, action) {
       currentState.participants[action.key].results = action.results;
       return currentState;
     case NEW_MATCH:
-      console.log(`CURRENT STATE`, createInitialMatchState());
       return {
         ...initialMatchState,
         participants: {
