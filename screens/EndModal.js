@@ -45,14 +45,18 @@ function isObjectEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
 
-export default function EndModal({ visible, onDismiss, participants }) {
+export default function EndModal({ visible, onDismiss, participants, reset }) {
   const [winner, setWinner] = useState(null);
   const [defeated, setDefeated] = useState(null);
   const [reason, setReason] = useState(END_MODAL_REASON_POINTS);
 
   useEffect(() => {
-    let win, def;
-    let updateReason = reason;
+    setReason(END_MODAL_REASON_POINTS);
+    setWinner(null);
+    setDefeated(null);
+
+    let win = '', def = '';
+    let updateReason = END_MODAL_REASON_POINTS;
 
     if (participants.P1.winner) {
       win = participants.P1;
@@ -74,7 +78,7 @@ export default function EndModal({ visible, onDismiss, participants }) {
     setReason(updateReason);
     setWinner(win);
     setDefeated(def);
-  }, [visible]);
+  }, [visible, reset]);
 
   return (
     <Modal

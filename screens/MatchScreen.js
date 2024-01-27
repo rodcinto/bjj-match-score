@@ -9,9 +9,9 @@ import Participant from "../components/Participant";
 import PlayPause from "../components/PlayPause";
 import Vibrations from "../components/Vibrations";
 import { FINISH_MATCH, NEW_MATCH } from "../constants/actions";
+import { APP_TITLE } from "../constants/application";
 import EndModal from "../screens/EndModal";
 import NewMatchDialog from "../screens/NewMatchDialog";
-import { APP_TITLE } from "../constants/application";
 
 const bgImage = require("../assets/web_bg.png");
 
@@ -123,6 +123,7 @@ export default function MatchScreen({
         visible={finishModalVisible}
         onDismiss={hideFinishModal}
         participants={participants}
+        reset={control.resetSignal}
       />
 
       <NewMatchDialog
