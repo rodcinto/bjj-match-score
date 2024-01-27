@@ -103,8 +103,8 @@ function actionFinishMatch(currentState) {
 }
 
 function canAcceptNames(participants) {
-  if (participants.P1.name.length === 0 || participants.P2.name.length === 0) {
-    return false;
+  if (participants.P1.name.length === 0 && participants.P2.name.length === 0) {
+    return true;
   }
   if (participants.P1.name === participants.P2.name) {
     return false;
@@ -125,7 +125,7 @@ const results = {
 
 const initialMatchState = {
   control: {
-    canStart: false,
+    canStart: true,
     matchOn: false,
     resetSignal: false,
   },

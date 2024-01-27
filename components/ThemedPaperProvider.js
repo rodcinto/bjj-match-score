@@ -23,7 +23,7 @@ export default function ThemedPaperProvider({ children }) {
             primary: "#ffb4a4",
             secondary: "#ffb596",
             tertiary: "#ffb877"
-            // ...md3Colors.schemes.dark``
+            // ...md3Colors.schemes.dark
           }
         }
       :
@@ -35,7 +35,7 @@ export default function ThemedPaperProvider({ children }) {
             primary: "#9c4330",
             secondary: "#99461d",
             tertiary: "#8e4f00"
-            // ...md3Colors.schemes.light``
+            // ...md3Colors.schemes.light
           }
         },
     [colorScheme, theme]

@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   TextInput,
-  Button,
   IconButton,
   Text,
-  Badge,
   SegmentedButtons,
 } from "react-native-paper";
 
+import ExtraButton from "./ExtraButton";
+import PointsButton from "./PointsButton";
 import Vibrations from "./Vibrations";
 import { UPDATE_NAME, UPDATE_RESULTS } from "../constants/actions";
 import {
@@ -16,6 +16,7 @@ import {
   END_GAME_SUB,
   END_GAME_TYPES,
   END_GAME_WO,
+  MAX_NAME_SIZE,
 } from "../constants/application";
 import Advantage from "../domain/Advantage";
 import Disqualification from "../domain/Disqualification";
@@ -28,8 +29,6 @@ import WalkOver from "../domain/WalkOver";
 import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
-import PointsButton from "./PointsButton";
-import ExtraButton from "./ExtraButton";
 
 function Participant({ dispatch, participant, isMatchOn, reset }) {
   const [localPoints] = useState(new Pile());
@@ -113,6 +112,10 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
     updateStates();
   };
 
+  const handleNameChange = (text) => {
+    setName(text.length <= MAX_NAME_SIZE ? text : name);
+  }
+
   const handleNameBlur = () => {
     dispatch({ type: UPDATE_NAME, key: participant.key, value: name });
   };
@@ -132,13 +135,13 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
     >
       {isMatchOn ? (
         <Text
-          variant="headlineMedium"
+          variant={ name.length > 10 ? "headlineSmall" : "headlineMedium" }
           style={[
             styles.nameText,
             { color: ColorHelper.defineNameColor(participant.corner) },
           ]}
         >
-          {name}
+          {name.length > 0 ? name : participant.corner}
         </Text>
       ) : (
         <TextInput
@@ -149,7 +152,7 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
           label={`${participant.corner} CORNER`}
           style={styles.nameTxtInput}
           value={name}
-          onChangeText={setName}
+          onChangeText={handleNameChange}
           onBlur={handleNameBlur}
         />
       )}
@@ -236,6 +239,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "700",
     verticalAlign: "middle",
+    lineHeight: 25,
   },
   nameTxtInput: {
     width: "90%",

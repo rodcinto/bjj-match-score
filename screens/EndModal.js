@@ -5,6 +5,14 @@ import { Modal, Text, ActivityIndicator } from "react-native-paper";
 import { END_MODAL_REASON_POINTS } from "../constants/application";
 import ColorHelper from "../utils/ColorHelper";
 
+function printParticipantName(participant) {
+  if (participant.name?.length > 0) {
+    return participant.name
+  }
+
+  return `${participant.corner} corner`;
+}
+
 function ParticipantDetails({ participant }) {
   const printAdvantage = (adv) => {
     if (adv === 0 || adv > 1) return `${adv} Advantages`;
@@ -18,9 +26,9 @@ function ParticipantDetails({ participant }) {
     <View style={styles.detailsSet}>
       <Text
         variant="titleLarge"
-        style={[{ color: ColorHelper.defineNameColor(participant.corner) }]}
+        style={[styles.participantName, { color: ColorHelper.defineNameColor(participant.corner) }]}
       >
-        {participant.name}
+        {printParticipantName(participant)}
       </Text>
       <Text variant="bodyMedium">{participant.results.rawPoints} points</Text>
       <Text variant="bodyMedium">
@@ -87,9 +95,9 @@ export default function EndModal({ visible, onDismiss, participants }) {
           <View style={styles.winnerWrapper}>
             <Text variant="headlineMedium" style={styles.winnerTxt}>
               <Text
-                style={{ color: ColorHelper.defineNameColor(winner.corner) }}
+                style={[styles.participantName, { color: ColorHelper.defineNameColor(winner.corner) }]}
               >
-                {winner.name}
+                {printParticipantName(winner)}
               </Text>{" "}
               win by {reason}
             </Text>
@@ -129,6 +137,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "uppercase",
     marginBottom: 50,
+  },
+  participantName: {
+    textAlign: "center",
+    textTransform: "uppercase",
   },
   winnerWrapper: {},
   winnerTxt: {

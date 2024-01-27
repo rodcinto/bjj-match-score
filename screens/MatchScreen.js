@@ -11,6 +11,7 @@ import Vibrations from "../components/Vibrations";
 import { FINISH_MATCH, NEW_MATCH } from "../constants/actions";
 import EndModal from "../screens/EndModal";
 import NewMatchDialog from "../screens/NewMatchDialog";
+import { APP_TITLE } from "../constants/application";
 
 const bgImage = require("../assets/web_bg.png");
 
@@ -65,9 +66,7 @@ export default function MatchScreen({
           imageStyle={styles.bgImage}
         >
           <View style={styles.header}>
-            <Text variant="displaySmall" style={styles.headlineText}>
-              BJJ Match Score
-            </Text>
+            <Text variant="displaySmall" style={styles.headlineText}>{APP_TITLE}</Text>
             <CountDownTimer
               isMatchOn={control.matchOn}
               onFinish={finishMatch}
