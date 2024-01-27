@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
   participantCard: {
     width: "48%",
     margin: 3,
+    marginLeft: 4,
     opacity: 0.9,
   },
   controlButtons: {
