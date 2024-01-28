@@ -5,15 +5,15 @@ import { Modal, Text, ActivityIndicator } from "react-native-paper";
 import { END_MODAL_REASON_POINTS } from "../constants/application";
 import ColorHelper from "../utils/ColorHelper";
 
-function printParticipantName(participant) {
+const printParticipantName = (participant) => {
   if (participant.name?.length > 0) {
     return participant.name;
   }
 
   return `${participant.corner} corner`;
-}
+};
 
-function ParticipantDetails({ participant }) {
+const ParticipantDetails = ({ participant }) => {
   const printAdvantage = (adv) => {
     if (adv === 0 || adv > 1) return `${adv} Advantages`;
     return `${adv} Advantage`;
@@ -42,13 +42,13 @@ function ParticipantDetails({ participant }) {
       </Text>
     </View>
   );
-}
+};
 
-function isObjectEmpty(obj) {
+const isObjectEmpty = (obj) => {
   return Object.keys(obj).length === 0;
-}
+};
 
-export default function EndModal({ visible, onDismiss, participants, reset }) {
+const EndModal = ({ visible, onDismiss, participants, reset }) => {
   const [winner, setWinner] = useState(null);
   const [defeated, setDefeated] = useState(null);
   const [reason, setReason] = useState(END_MODAL_REASON_POINTS);
@@ -139,7 +139,9 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
       )}
     </Modal>
   );
-}
+};
+
+export default EndModal;
 
 const styles = StyleSheet.create({
   container: {

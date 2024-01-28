@@ -14,7 +14,7 @@ import { BLUE, P1_KEY, P2_KEY, RED } from "./constants/application";
 import MatchScreen from "./screens/MatchScreen";
 import chooseWinnerKey from "./utils/chooseWinnerKey";
 
-function matchReducer(currentState, action) {
+const matchReducer = (currentState, action) => {
   console.log("Action dispatch.", action.type);
 
   switch (action.type) {
@@ -82,9 +82,9 @@ function matchReducer(currentState, action) {
     default:
       throw Error(`Unkown action "${action.type}"`);
   }
-}
+};
 
-function actionFinishMatch(currentState) {
+const actionFinishMatch = (currentState) => {
   currentState.participants.P1.winner = false;
   currentState.participants.P2.winner = false;
 
@@ -110,9 +110,9 @@ function actionFinishMatch(currentState) {
   };
 
   return newState;
-}
+};
 
-function canAcceptNames(participants) {
+const canAcceptNames = (participants) => {
   if (participants.P1.name.length === 0 && participants.P2.name.length === 0) {
     return true;
   }
@@ -121,7 +121,7 @@ function canAcceptNames(participants) {
   }
 
   return true;
-}
+};
 
 const results = {
   processedPoints: 0,
@@ -161,11 +161,11 @@ const initialMatchState = {
 };
 
 // Função não está sendo usada
-function createInitialMatchState() {
+const createInitialMatchState = () => {
   return { ...initialMatchState };
-}
+};
 
-export default function App() {
+const App = () => {
   const [matchState, matchDispatch] = useReducer(
     matchReducer,
     initialMatchState,
@@ -183,4 +183,6 @@ export default function App() {
       </ThemedPaperProvider>
     </SafeAreaProvider>
   );
-}
+};
+
+export default App;

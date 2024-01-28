@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Text, Snackbar } from "react-native-paper";
 
-export default function FinishButton(props) {
+const FinishButton = (props) => {
   const [snackbarVisible, setSnackbarVisible] = useState(false);
 
   const handlePress = () => {
@@ -43,7 +43,9 @@ export default function FinishButton(props) {
       </Snackbar>
     </>
   );
-}
+};
+
+export default FinishButton;
 
 const styles = StyleSheet.create({
   finishBtn: {

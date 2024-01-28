@@ -15,12 +15,7 @@ import NewMatchDialog from "../screens/NewMatchDialog";
 
 const bgImage = require("../assets/web_bg.png");
 
-export default function MatchScreen({
-  dispatch,
-  control,
-  timer,
-  participants,
-}) {
+const MatchScreen = ({ dispatch, control, timer, participants }) => {
   const [finishModalVisible, setFinishModalVisible] = useState(false);
   const showFinishModal = () => setFinishModalVisible(true);
   const hideFinishModal = () => setFinishModalVisible(false);
@@ -135,7 +130,9 @@ export default function MatchScreen({
       />
     </>
   );
-}
+};
+
+export default MatchScreen;
 
 const styles = StyleSheet.create({
   bgImage: {

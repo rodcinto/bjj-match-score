@@ -31,7 +31,7 @@ import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
 
-function Participant({ dispatch, participant, isMatchOn, reset }) {
+const Participant = ({ dispatch, participant, isMatchOn, reset }) => {
   const [localPoints] = useState(new Pile());
 
   const [name, setName] = useState("");
@@ -241,7 +241,8 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       </View>
     </View>
   );
-}
+};
+
 export default Participant;
 
 const styles = StyleSheet.create({

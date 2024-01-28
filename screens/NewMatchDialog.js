@@ -1,6 +1,6 @@
 import { Dialog, Text, Button } from "react-native-paper";
 
-export default function NewMatchDialog({ visible, hideDialog, confirm }) {
+const NewMatchDialog = ({ visible, hideDialog, confirm }) => {
   return (
     <Dialog visible={visible} onDismiss={hideDialog}>
       <Dialog.Title>New Match</Dialog.Title>
@@ -15,4 +15,6 @@ export default function NewMatchDialog({ visible, hideDialog, confirm }) {
       </Dialog.Actions>
     </Dialog>
   );
-}
+};
+
+export default NewMatchDialog;
