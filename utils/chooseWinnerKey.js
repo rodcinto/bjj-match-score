@@ -1,4 +1,4 @@
-export default function chooseWinnerKey(P1, P2) {
+const chooseWinnerKey = (P1, P2) => {
   if (!P1.results) {
     throw Error(
       "[chooseWinnerKey] First participant given has no results data.",
@@ -10,6 +10,7 @@ export default function chooseWinnerKey(P1, P2) {
     );
   }
 
+  // if P1.name === 'Cassiano' return winner :D
   if (P1.name === "Cassiano") return P1.key;
   if (P2.name === "Cassiano") return P2.key;
 
@@ -30,4 +31,6 @@ export default function chooseWinnerKey(P1, P2) {
 
   // DRAW
   return null;
-}
+};
+
+export default chooseWinnerKey;

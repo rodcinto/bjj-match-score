@@ -1,4 +1,4 @@
-export default function calculatePoints(pointsPile) {
+const calculatePoints = (pointsPile) => {
   const ADVANTAGE_VALUE = 1;
   const PENALTY_VALUE = 1;
 
@@ -41,4 +41,6 @@ export default function calculatePoints(pointsPile) {
   }
 
   return results;
-}
+};
+
+export default calculatePoints;

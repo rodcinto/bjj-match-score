@@ -12,22 +12,21 @@ import {
   TIMER_SECONDS_ALPHA,
 } from "../constants/application";
 
-function generateTimerId() {
-  return `${TIMER_ID}_${Date.now()}`;
-}
+// Generates a unique timer ID based on the current timestamp.
+const generateTimerId = () => `${TIMER_ID}_${Date.now()}`;
 
-function CountDownTimer({ isMatchOn, play, onFinish, reset }) {
+const CountDownTimer = ({ isMatchOn, play, onFinish, reset }) => {
   const [timerId, setTimerId] = useState(TIMER_ID);
   const [seconds, setSeconds] = useState(TIMER_INITIAL_SECONDS);
 
-  const increaseTime = function () {
+  const increaseTime = () => {
     if (seconds + TIMER_SECONDS_ALPHA <= TIMER_MAX_LIMIT) {
       Vibrations.vibrateDefault();
       setSeconds(seconds + TIMER_SECONDS_ALPHA);
     }
   };
 
-  const decreaseTime = function () {
+  const decreaseTime = () => {
     if (seconds - TIMER_SECONDS_ALPHA >= TIMER_MIN_LIMIT) {
       Vibrations.vibrateDefault();
       setSeconds(seconds - TIMER_SECONDS_ALPHA);
@@ -76,7 +75,7 @@ function CountDownTimer({ isMatchOn, play, onFinish, reset }) {
       </View>
     </View>
   );
-}
+};
 
 export default CountDownTimer;
 

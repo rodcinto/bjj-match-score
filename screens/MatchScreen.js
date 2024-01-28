@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import { Card, Text, FAB } from "react-native-paper";
 
@@ -15,12 +15,7 @@ import NewMatchDialog from "../screens/NewMatchDialog";
 
 const bgImage = require("../assets/web_bg.png");
 
-export default function MatchScreen({
-  dispatch,
-  control,
-  timer,
-  participants,
-}) {
+const MatchScreen = ({ dispatch, control, timer, participants }) => {
   const [finishModalVisible, setFinishModalVisible] = useState(false);
   const showFinishModal = () => setFinishModalVisible(true);
   const hideFinishModal = () => setFinishModalVisible(false);
@@ -66,7 +61,9 @@ export default function MatchScreen({
           imageStyle={styles.bgImage}
         >
           <View style={styles.header}>
-            <Text variant="displaySmall" style={styles.headlineText}>{APP_TITLE}</Text>
+            <Text variant="displaySmall" style={styles.headlineText}>
+              {APP_TITLE}
+            </Text>
             <CountDownTimer
               isMatchOn={control.matchOn}
               onFinish={finishMatch}
@@ -133,7 +130,9 @@ export default function MatchScreen({
       />
     </>
   );
-}
+};
+
+export default MatchScreen;
 
 const styles = StyleSheet.create({
   bgImage: {
@@ -148,7 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    // backgroundColor: 'rgba(255, 255, 255, 0.5)',
     marginTop: 50,
   },
   headlineText: {

@@ -31,7 +31,7 @@ import ColorHelper from "../utils/ColorHelper";
 import Pile from "../utils/Pile";
 import calculatePoints from "../utils/calculatePoints";
 
-function Participant({ dispatch, participant, isMatchOn, reset }) {
+const Participant = ({ dispatch, participant, isMatchOn, reset }) => {
   const [localPoints] = useState(new Pile());
 
   const [name, setName] = useState("");
@@ -119,7 +119,7 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
     }
     setName(text);
     dispatch({ type: UPDATE_NAME, key: participant.key, value: name.trim() });
-  }
+  };
 
   const handleNameBlur = () => {
     dispatch({ type: UPDATE_NAME, key: participant.key, value: name.trim() });
@@ -140,7 +140,9 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
     >
       {isMatchOn ? (
         <Text
-          variant={ name.length > SHRINK_NAME_ON ? "headlineSmall" : "headlineMedium" }
+          variant={
+            name.length > SHRINK_NAME_ON ? "headlineSmall" : "headlineMedium"
+          }
           style={[
             styles.nameText,
             { color: ColorHelper.defineNameColor(participant.corner) },
@@ -151,7 +153,9 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       ) : (
         <TextInput
           mode="outlined"
-          outlineStyle={{borderColor: ColorHelper.defineNameColor(participant.corner)}}
+          outlineStyle={{
+            borderColor: ColorHelper.defineNameColor(participant.corner),
+          }}
           activeOutlineColor={ColorHelper.defineNameColor(participant.corner)}
           textColor={ColorHelper.defineNameColor(participant.corner)}
           label={`${participant.corner} CORNER`}
@@ -172,9 +176,18 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       </View>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonsGroup}>
-          <PointsButton labelText="+2" onPress={() => addPoints(new TwoPoints())} />
-          <PointsButton labelText="+3" onPress={() => addPoints(new ThreePoints())} />
-          <PointsButton labelText="+4" onPress={() => addPoints(new FourPoints())} />
+          <PointsButton
+            labelText="+2"
+            onPress={() => addPoints(new TwoPoints())}
+          />
+          <PointsButton
+            labelText="+3"
+            onPress={() => addPoints(new ThreePoints())}
+          />
+          <PointsButton
+            labelText="+4"
+            onPress={() => addPoints(new FourPoints())}
+          />
         </View>
         <View style={styles.buttonsGroup}>
           <ExtraButton
@@ -228,7 +241,8 @@ function Participant({ dispatch, participant, isMatchOn, reset }) {
       </View>
     </View>
   );
-}
+};
+
 export default Participant;
 
 const styles = StyleSheet.create({

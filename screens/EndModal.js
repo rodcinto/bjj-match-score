@@ -5,15 +5,15 @@ import { Modal, Text, ActivityIndicator } from "react-native-paper";
 import { END_MODAL_REASON_POINTS } from "../constants/application";
 import ColorHelper from "../utils/ColorHelper";
 
-function printParticipantName(participant) {
+const printParticipantName = (participant) => {
   if (participant.name?.length > 0) {
-    return participant.name
+    return participant.name;
   }
 
   return `${participant.corner} corner`;
-}
+};
 
-function ParticipantDetails({ participant }) {
+const ParticipantDetails = ({ participant }) => {
   const printAdvantage = (adv) => {
     if (adv === 0 || adv > 1) return `${adv} Advantages`;
     return `${adv} Advantage`;
@@ -26,7 +26,10 @@ function ParticipantDetails({ participant }) {
     <View style={styles.detailsSet}>
       <Text
         variant="titleLarge"
-        style={[styles.participantName, { color: ColorHelper.defineNameColor(participant.corner) }]}
+        style={[
+          styles.participantName,
+          { color: ColorHelper.defineNameColor(participant.corner) },
+        ]}
       >
         {printParticipantName(participant)}
       </Text>
@@ -39,13 +42,13 @@ function ParticipantDetails({ participant }) {
       </Text>
     </View>
   );
-}
+};
 
-function isObjectEmpty(obj) {
+const isObjectEmpty = (obj) => {
   return Object.keys(obj).length === 0;
-}
+};
 
-export default function EndModal({ visible, onDismiss, participants, reset }) {
+const EndModal = ({ visible, onDismiss, participants, reset }) => {
   const [winner, setWinner] = useState(null);
   const [defeated, setDefeated] = useState(null);
   const [reason, setReason] = useState(END_MODAL_REASON_POINTS);
@@ -55,7 +58,8 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
     setWinner(null);
     setDefeated(null);
 
-    let win, def = '';
+    let win,
+      def = "";
     let updateReason = END_MODAL_REASON_POINTS;
 
     if (participants.P1.winner) {
@@ -75,7 +79,6 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
     setReason(updateReason);
     setWinner(win);
     setDefeated(def);
-
   }, [visible]);
 
   useEffect(() => {
@@ -103,7 +106,10 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
           <View style={styles.winnerWrapper}>
             <Text variant="headlineMedium" style={styles.winnerTxt}>
               <Text
-                style={[styles.participantName, { color: ColorHelper.defineNameColor(winner.corner) }]}
+                style={[
+                  styles.participantName,
+                  { color: ColorHelper.defineNameColor(winner.corner) },
+                ]}
               >
                 {printParticipantName(winner)}
               </Text>{" "}
@@ -133,7 +139,9 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
       )}
     </Modal>
   );
-}
+};
+
+export default EndModal;
 
 const styles = StyleSheet.create({
   container: {

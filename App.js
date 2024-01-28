@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import ThemedPaperProvider from './components/ThemedPaperProvider';
+import ThemedPaperProvider from "./components/ThemedPaperProvider";
 import {
   FINISH_MATCH,
   NEW_MATCH,
@@ -14,7 +14,7 @@ import { BLUE, P1_KEY, P2_KEY, RED } from "./constants/application";
 import MatchScreen from "./screens/MatchScreen";
 import chooseWinnerKey from "./utils/chooseWinnerKey";
 
-function matchReducer(currentState, action) {
+const matchReducer = (currentState, action) => {
   console.log("Action dispatch.", action.type);
 
   switch (action.type) {
@@ -76,15 +76,15 @@ function matchReducer(currentState, action) {
         },
         control: {
           ...initialMatchState.control,
-          resetSignal: !currentState.control.resetSignal
+          resetSignal: !currentState.control.resetSignal,
         },
       };
     default:
       throw Error(`Unkown action "${action.type}"`);
   }
-}
+};
 
-function actionFinishMatch(currentState) {
+const actionFinishMatch = (currentState) => {
   currentState.participants.P1.winner = false;
   currentState.participants.P2.winner = false;
 
@@ -110,9 +110,9 @@ function actionFinishMatch(currentState) {
   };
 
   return newState;
-}
+};
 
-function canAcceptNames(participants) {
+const canAcceptNames = (participants) => {
   if (participants.P1.name.length === 0 && participants.P2.name.length === 0) {
     return true;
   }
@@ -121,7 +121,7 @@ function canAcceptNames(participants) {
   }
 
   return true;
-}
+};
 
 const results = {
   processedPoints: 0,
@@ -160,14 +160,15 @@ const initialMatchState = {
   },
 };
 
-function createInitialMatchState() {
+// Função não está sendo usada
+const createInitialMatchState = () => {
   return { ...initialMatchState };
-}
+};
 
-export default function App() {
+const App = () => {
   const [matchState, matchDispatch] = useReducer(
     matchReducer,
-    initialMatchState
+    initialMatchState,
   );
 
   return (
@@ -175,11 +176,13 @@ export default function App() {
       <ThemedPaperProvider>
         <MatchScreen
           dispatch={matchDispatch}
-          control={matchState.control }
-          timer={matchState.timer }
-          participants={matchState.participants }
+          control={matchState.control}
+          timer={matchState.timer}
+          participants={matchState.participants}
         />
       </ThemedPaperProvider>
     </SafeAreaProvider>
   );
-}
+};
+
+export default App;
