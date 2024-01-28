@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import { Card, Text, FAB } from "react-native-paper";
 
@@ -66,7 +66,9 @@ export default function MatchScreen({
           imageStyle={styles.bgImage}
         >
           <View style={styles.header}>
-            <Text variant="displaySmall" style={styles.headlineText}>{APP_TITLE}</Text>
+            <Text variant="displaySmall" style={styles.headlineText}>
+              {APP_TITLE}
+            </Text>
             <CountDownTimer
               isMatchOn={control.matchOn}
               onFinish={finishMatch}
@@ -148,7 +150,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    // backgroundColor: 'rgba(255, 255, 255, 0.5)',
     marginTop: 50,
   },
   headlineText: {

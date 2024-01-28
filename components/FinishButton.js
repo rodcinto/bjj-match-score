@@ -35,9 +35,10 @@ export default function FinishButton(props) {
         onDismiss={hideSnackbar}
         style={styles.snackbar}
         action={{
-          label: 'OK',
-          onPress: hideSnackbar
-        }}>
+          label: "OK",
+          onPress: hideSnackbar,
+        }}
+      >
         Long press to finish.
       </Snackbar>
     </>
@@ -52,5 +53,5 @@ const styles = StyleSheet.create({
   finishBtnTxt: {},
   snackbar: {
     zIndex: 1,
-  }
+  },
 });

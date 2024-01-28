@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import ThemedPaperProvider from './components/ThemedPaperProvider';
+import ThemedPaperProvider from "./components/ThemedPaperProvider";
 import {
   FINISH_MATCH,
   NEW_MATCH,
@@ -76,7 +76,7 @@ function matchReducer(currentState, action) {
         },
         control: {
           ...initialMatchState.control,
-          resetSignal: !currentState.control.resetSignal
+          resetSignal: !currentState.control.resetSignal,
         },
       };
     default:
@@ -160,6 +160,7 @@ const initialMatchState = {
   },
 };
 
+// Função não está sendo usada
 function createInitialMatchState() {
   return { ...initialMatchState };
 }
@@ -167,7 +168,7 @@ function createInitialMatchState() {
 export default function App() {
   const [matchState, matchDispatch] = useReducer(
     matchReducer,
-    initialMatchState
+    initialMatchState,
   );
 
   return (
@@ -175,9 +176,9 @@ export default function App() {
       <ThemedPaperProvider>
         <MatchScreen
           dispatch={matchDispatch}
-          control={matchState.control }
-          timer={matchState.timer }
-          participants={matchState.participants }
+          control={matchState.control}
+          timer={matchState.timer}
+          participants={matchState.participants}
         />
       </ThemedPaperProvider>
     </SafeAreaProvider>

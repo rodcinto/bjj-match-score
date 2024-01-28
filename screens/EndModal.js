@@ -7,7 +7,7 @@ import ColorHelper from "../utils/ColorHelper";
 
 function printParticipantName(participant) {
   if (participant.name?.length > 0) {
-    return participant.name
+    return participant.name;
   }
 
   return `${participant.corner} corner`;
@@ -26,7 +26,10 @@ function ParticipantDetails({ participant }) {
     <View style={styles.detailsSet}>
       <Text
         variant="titleLarge"
-        style={[styles.participantName, { color: ColorHelper.defineNameColor(participant.corner) }]}
+        style={[
+          styles.participantName,
+          { color: ColorHelper.defineNameColor(participant.corner) },
+        ]}
       >
         {printParticipantName(participant)}
       </Text>
@@ -55,7 +58,8 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
     setWinner(null);
     setDefeated(null);
 
-    let win, def = '';
+    let win,
+      def = "";
     let updateReason = END_MODAL_REASON_POINTS;
 
     if (participants.P1.winner) {
@@ -75,7 +79,6 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
     setReason(updateReason);
     setWinner(win);
     setDefeated(def);
-
   }, [visible]);
 
   useEffect(() => {
@@ -103,7 +106,10 @@ export default function EndModal({ visible, onDismiss, participants, reset }) {
           <View style={styles.winnerWrapper}>
             <Text variant="headlineMedium" style={styles.winnerTxt}>
               <Text
-                style={[styles.participantName, { color: ColorHelper.defineNameColor(winner.corner) }]}
+                style={[
+                  styles.participantName,
+                  { color: ColorHelper.defineNameColor(winner.corner) },
+                ]}
               >
                 {printParticipantName(winner)}
               </Text>{" "}

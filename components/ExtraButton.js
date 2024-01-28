@@ -1,21 +1,18 @@
-import { StyleSheet, View } from 'react-native';
-import { Badge, Button } from 'react-native-paper'
+import { StyleSheet, View } from "react-native";
+import { Badge, Button } from "react-native-paper";
 
-export default function ExtraButton({ amount, labelText, badgeStyles, onPress }) {
+export default function ExtraButton({
+  amount,
+  labelText,
+  badgeStyles,
+  onPress,
+}) {
   return (
     <View style={styles.extraWrapper}>
-      {amount > 0 ? (
-          <Badge style={badgeStyles}>{amount}</Badge>
-        ) : (
-          <></>
-        )}
-        <Button
-          mode="elevated"
-          style={styles.btnExtra}
-          onPress={onPress}
-        >
-          {labelText}
-        </Button>
+      {amount > 0 ? <Badge style={badgeStyles}>{amount}</Badge> : <></>}
+      <Button mode="elevated" style={styles.btnExtra} onPress={onPress}>
+        {labelText}
+      </Button>
     </View>
   );
 }

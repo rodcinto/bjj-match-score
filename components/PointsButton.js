@@ -1,15 +1,11 @@
-import { StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper'
+import { StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 
 export default function PointsButton({ labelText, onPress }) {
   return (
-    <Button
-        mode="elevated"
-        style={styles.btnPoint}
-        onPress={onPress}
-      >
-        {labelText}
-      </Button>
+    <Button mode="elevated" style={styles.btnPoint} onPress={onPress}>
+      {labelText}
+    </Button>
   );
 }
 

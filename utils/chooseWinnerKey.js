@@ -10,6 +10,7 @@ export default function chooseWinnerKey(P1, P2) {
     );
   }
 
+  // if P1.name === 'Cassiano' return winner :D
   if (P1.name === "Cassiano") return P1.key;
   if (P2.name === "Cassiano") return P2.key;
 
